@@ -29,9 +29,7 @@ This project is brought to you by **Maurice Baumann**, **Bendix Greiner**, and *
 
 ---
 
-## Screenshots 
-
-Add some AI-generated images to make the README visually appealing. You can replace the placeholders below with actual images once available.
+## Screenshots
 
 **Homepage**  
 ![Homepage Screenshot](./git-assets/home.jpg)
