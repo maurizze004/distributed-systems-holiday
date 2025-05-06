@@ -13,6 +13,7 @@ out/
 
 # Log files
 *.log
+.env
 
 # Package Files #
 *.jar
