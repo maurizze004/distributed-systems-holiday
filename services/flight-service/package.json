@@ -1,0 +1,14 @@
+{
+  "name": "flight-service",
+  "version": "1.0.0",
+  "description": "This is the management for the flight service",
+  "main": "db.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/maurizze004/distributed-systems-holiday.git"
+  },
+  "private": true
+}
