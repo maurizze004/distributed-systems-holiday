@@ -2,6 +2,7 @@ import express from 'express';
 import { connectDB, config } from './db.js';
 import flightRoutes from './flights.js';
 import cors from 'cors';
+import { seedFlights } from './seed.js';
 
 const app = express();
 
@@ -9,13 +10,13 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-// Connect to the database
-connectDB();
-
-// Use Routes
-app.use('/flights', flightRoutes);
-
-// Start the server
-app.listen(config.PORT, () => {
-    console.log(`Server is running on port ${config.PORT}`);
-});
+async function startServer() {
+    await connectDB();
+    await seedFlights();
+    app.use('/flights', flightRoutes);
+    app.listen(config.PORT, () => {
+      console.log(`Server läuft auf Port ${config.PORT}`);
+    });
+  }
+  
+  startServer();
