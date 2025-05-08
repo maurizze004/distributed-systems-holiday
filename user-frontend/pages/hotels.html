@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <title>Hotel Liste</title>
+  <style>
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+    th { background-color: #eee; }
+  </style>
+</head>
+<body>
+  <h1>Hotels aus der Datenbank</h1>
+  <table id="hotelTable">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Land</th>
+        <th>Stadt</th>
+        <th>Straße</th>
+        <th>Nummer</th>
+        <th>Preis</th>
+        <th>Verfügbare Zimmer</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script>
+    async function ladeHotels() {
+      try {
+        // const response = await fetch('/hotels/get');
+        
+        const response = await fetch('http://localhost:3000/hotels/get');
+        if (!response.ok) throw new Error('Fehler beim Laden der Hotels');
+        const hotels = await response.json();
+
+        const tbody = document.querySelector('#hotelTable tbody');
+        tbody.innerHTML = ''; // Tabelle leeren
+
+        hotels.forEach(hotel => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td>${hotel.name || ''}</td>
+            <td>${hotel.country || ''}</td>
+            <td>${hotel.city || ''}</td>
+            <td>${hotel.street || ''}</td>
+            <td>${hotel.number || ''}</td>
+            <td>${hotel.price || ''} €</td>
+            <td>${hotel.rooms_available || ''}</td>
+          `;
+          tbody.appendChild(tr);
+        });
+      } catch (error) {
+        console.error(error);
+        alert('Konnte Hotels nicht laden.');
+      }
+    }
+
+    ladeHotels();
+  </script>
+</body>
+</html>
