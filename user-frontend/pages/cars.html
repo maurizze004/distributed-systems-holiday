@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Übersicht der Autos</title>
+<style>
+  body {
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 20px;
+    background: #f9f9f9;
+  }
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .card {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+  }
+  .card-body {
+    padding: 16px;
+    flex-grow: 1;
+  }
+  .card-title {
+    font-size: 1.25rem;
+    margin: 0 0 8px;
+  }
+  .card-subtitle {
+    font-size: 1rem;
+    color: #666;
+    margin: 0 0 12px;
+  }
+  .card-text {
+    font-size: 0.9rem;
+    margin: 4px 0;
+  }
+  .availability {
+    margin-top: 12px;
+    font-weight: bold;
+    color: green;
+  }
+  .availability.unavailable {
+    color: red;
+  }
+</style>
+</head>
+<body>
+
+<div class="cards" id="carCards">
+  <!-- Cards werden hier per JS eingefügt -->
+</div>
+
+<script>
+  async function loadCars() {
+    try {
+      const response = await fetch('http://localhost:3000/cars/get');
+      if (!response.ok) {
+        throw new Error(`Fehler beim Laden der Daten: ${response.status}`);
+      }
+      const cars = await response.json();
+
+      const container = document.getElementById('carCards');
+      container.innerHTML = ''; // Alte Inhalte löschen
+
+      cars.forEach(car => {
+        const card = document.createElement('article');
+        card.className = 'card';
+
+        card.innerHTML = `
+          <img src="${car.imageUrl}" alt="${car.brand} ${car.model}" />
+          <div class="card-body">
+            <h2 class="card-title">${car.brand} ${car.model}</h2>
+            <h3 class="card-subtitle">${car.power} | ${car.fuel_type} | Baujahr: ${car.year}</h3>
+            <p class="card-text">Tagespreis: €${car.daily_rate.toFixed(2)}</p>
+            <p class="card-text ${car.is_available ? 'availability' : 'availability unavailable'}">
+              ${car.is_available ? 'Verfügbar' : 'Belegt bis: ' + new Date(car.occupied_until).toLocaleDateString()}
+            </p>
+          </div>
+        `;
+
+        container.appendChild(card);
+      });
+    } catch (error) {
+      console.error('Fehler:', error);
+      document.getElementById('carCards').textContent = 'Fehler beim Laden der Autodaten.';
+    }
+  }
+
+  loadCars();
+</script>
+
+</body>
+</html>
