@@ -66,12 +66,19 @@ The project leverages the following tools and technologies:
    git clone https://github.com/maurizze004/distributed-systems-holiday.git
    ```
 
-2. Open your browser and navigate to:
+2. Run the following command for every service
 
    ```
-   http://localhost:8080
+   npm install mongoose nodemon cors dotenv express
    ```
-
+3. In the project root folder install
+    ```
+   npm install open path
+   ```
+4. When installation finished stay in root and run 
+    ```
+   node run.js
+   ```
 ---
 
 ## Contributors 
