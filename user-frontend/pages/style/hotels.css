@@ -1,0 +1,83 @@
+body {
+    background: linear-gradient(to bottom right, #f0f4f8, #dce7f0);
+    font-family: 'Helvetica Neue', sans-serif;
+    color: #212529;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.navbar {
+    background-color: #05164d;
+}
+
+.navbar-brand {
+    font-weight: 600;
+    font-size: 1.25rem;
+}
+
+.content {
+    flex: 1;
+}
+
+.hotel-card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.hotel-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+.hotel-card img {
+    height: 200px;
+    object-fit: cover;
+    width: 100%;
+}
+
+.hotel-info {
+    padding: 1rem 1.25rem;
+}
+
+.hotel-name {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #05164d;
+}
+
+.hotel-location {
+    font-size: 0.95rem;
+    color: #666;
+}
+
+.hotel-price {
+    font-size: 1.05rem;
+    font-weight: 500;
+    margin-top: 0.5rem;
+    color: #1d3557;
+}
+
+.hotel-rating {
+    color: #ffc107;
+}
+
+footer {
+    font-size: 0.85rem;
+    color: #888;
+    padding: 1rem 0;
+    text-align: right;
+    background: transparent;
+}
+
+footer a {
+    color: #aaa;
+    text-decoration: none;
+}
+
+footer a:hover {
+    color: #444;
+}

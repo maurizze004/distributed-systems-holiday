@@ -1,9 +1,19 @@
+.navbar {
+    background-color: #05164d;
+}
+
+.navbar-brand {
+    font-weight: 600;
+    font-size: 1.25rem;
+}
+
 body {
-    background: url('https://t1p.de/vpu8n') no-repeat center 100px fixed;
-    background-size: cover;
-    background-color: #f0f4fd;
-    font-family: "Helvetica Neue", sans-serif;
-    color: #1a1a1a;
+    background: linear-gradient(to bottom right, #f0f4f8, #dce7f0);
+    font-family: 'Helvetica Neue', sans-serif;
+    color: #212529;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 .flight-card {

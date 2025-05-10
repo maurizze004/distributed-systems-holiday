@@ -10,7 +10,8 @@ const carSchema = new mongoose.Schema({
   fuel_type: String,
   is_available: Boolean,
   occupied_until: Date,
-  imageUrl: String // z.B. '/uploads/cars/123.jpg' oder eine externe URL
+  imageUrl: String,
+  class: String
 });
 
 const Car = mongoose.model('Cars', carSchema);

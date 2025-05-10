@@ -4,8 +4,8 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const config = {
-    PORT: process.env.PORT || 7000,
-    MONGOURL: process.env.MONGO_URL,
+    PORT:3000,
+    MONGOURL: 'mongodb://127.0.0.1:27017/TM-Flights',
 };
 
 const connectDB = async () => {

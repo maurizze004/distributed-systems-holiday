@@ -2,62 +2,79 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8" />
-  <title>Hotel Liste</title>
-  <style>
-    table { border-collapse: collapse; width: 100%; }
-    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
-    th { background-color: #eee; }
-  </style>
+  <title>TravelMate – Hotels</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
+  <link rel="stylesheet" href="../style/hotels.css"/>
 </head>
 <body>
-  <h1>Hotels aus der Datenbank</h1>
-  <table id="hotelTable">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Land</th>
-        <th>Stadt</th>
-        <th>Straße</th>
-        <th>Nummer</th>
-        <th>Preis</th>
-        <th>Verfügbare Zimmer</th>
-      </tr>
-    </thead>
-    <tbody></tbody>
-  </table>
 
-  <script>
-    async function ladeHotels() {
-      try {
-        // const response = await fetch('/hotels/get');
-        
-        const response = await fetch('http://localhost:3000/hotels/get');
-        if (!response.ok) throw new Error('Fehler beim Laden der Hotels');
-        const hotels = await response.json();
 
-        const tbody = document.querySelector('#hotelTable tbody');
-        tbody.innerHTML = ''; // Tabelle leeren
+<nav class="navbar navbar-expand-lg navbar-dark">
+  <div class="container">
+    <a class="navbar-brand" href="#"><i class="bi bi-airplane me-2"></i>TravelMate</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="../../index.html">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="./flights.html">Fl&uuml;ge</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="./cars.html">Mietwagen</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
 
-        hotels.forEach(hotel => {
-          const tr = document.createElement('tr');
-          tr.innerHTML = `
-            <td>${hotel.name || ''}</td>
-            <td>${hotel.country || ''}</td>
-            <td>${hotel.city || ''}</td>
-            <td>${hotel.street || ''}</td>
-            <td>${hotel.number || ''}</td>
-            <td>${hotel.price || ''} €</td>
-            <td>${hotel.rooms_available || ''}</td>
-          `;
-          tbody.appendChild(tr);
-        });
-      } catch (error) {
-        console.error(error);
-        alert('Konnte Hotels nicht laden.');
-      }
-    }
 
-    ladeHotels();
-  </script>
+<main class="content">
+  <div class="container py-5">
+    <h1 class="mb-4 text-center">Verf&uuml;gbare Hotels</h1>
+    <p class="text-center mb-4">Finden Sie Ihre ideales Hotel zu den besten Preisen. Wählen Sie aus unseren und unseren Kunden Top-Rated Hotels.</p>
+
+    <!-- Search & Sort -->
+    <div class="d-flex justify-content-between align-items-center flex-wrap mb-4">
+      <!-- Search -->
+      <div class="search-bar" style="min-width: 350px;">
+        <div class="input-group">
+          <input type="text" id="search-hotel-input" class="form-control" placeholder="Suche nach Hotelname oder Ort">
+          <button class="btn btn-dark" id="search-hotel-button">
+            <i class="bi bi-search"></i>
+          </button>
+          <button class="btn btn-dark" id="clear-button" onclick="loadHotels()">
+            <i class="bi bi-x-lg"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Sort -->
+      <div class="filter-dropdown d-flex align-items-center mt-3 mt-md-0">
+        <label for="sort-hotel-option" class="form-label me-2 mb-0">Sortieren nach:</label>
+        <select id="sort-hotel-option" class="form-select w-auto">
+          <option value="default">Standard</option>
+          <option value="price-asc">Preis aufsteigend</option>
+          <option value="price-desc">Preis absteigend</option>
+          <option value="star-asc">Sterne aufsteigend</option>
+          <option value="star-desc">Sterne absteigend</option>
+        </select>
+      </div>
+    </div>
+
+
+    <div class="row g-4" id="hotel-container">
+    </div>
+
+  </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../script/hotel.js"></script>
 </body>
 </html>

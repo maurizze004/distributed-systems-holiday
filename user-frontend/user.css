@@ -1,0 +1,108 @@
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(to bottom right, #f0f4f8, #dce7f0);
+    font-family: 'Helvetica Neue', sans-serif;
+    color: #212529;
+}
+
+.navbar {
+    background-color: #05164d;
+}
+
+.navbar-brand {
+    font-weight: 600;
+    font-size: 1.25rem;
+}
+
+.content {
+    flex: 1;
+}
+
+.section-intro {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.section-intro h1 {
+    font-weight: 600;
+    color: #05164d;
+    font-size: 2.5rem;
+}
+
+.section-intro p {
+    font-size: 1.1rem;
+    color: #5c6670;
+}
+
+.card {
+    border: none;
+    border-radius: 14px;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.05);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+}
+
+.card i {
+    color: #05164d;
+}
+
+.btn-dark {
+    background-color: #05164d;
+    border: none;
+}
+
+.btn-dark:hover {
+    background-color: #03226c;
+}
+
+.footer {
+    font-size: 0.85rem;
+    color: #888;
+    padding: 1rem 0;
+    text-align: right;
+    background: transparent;
+}
+
+.footer a {
+    color: #aaa;
+    text-decoration: none;
+}
+
+.footer a:hover {
+    color: #444;
+}
+
+.accordion-item {
+    border: none;
+    border-bottom: 2px solid #c0c4cc;
+    border-radius: 0;
+    background: transparent;
+}
+
+.accordion-item + .accordion-item {
+    margin-top: 0.75rem;
+}
+
+.accordion-button {
+    background: transparent;
+    box-shadow: none;
+    font-weight: 500;
+    padding-left: 0;
+    font-size: 1.125rem;
+}
+
+.accordion-button:not(.collapsed) {
+    color: #05164d;
+    background-color: transparent;
+}
+
+.accordion-body {
+    padding-left: 0.5rem;
+    font-size: 0.95rem;
+}
