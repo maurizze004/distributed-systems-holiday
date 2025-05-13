@@ -1,20 +1,24 @@
 import fs from 'fs';
 import Car from './car.js';
 import dotenv from 'dotenv';
+import { fileURLToPath } from 'url';
+import path from 'node:path';
+
 
 dotenv.config();
 
-const config = {
-    FILEPATH: process.env.PATH_FILES
-};
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const carsPath = path.join(__dirname, 'cars.json');
+
 
 export async function seedCars() {
   const count = await Car.countDocuments();
   if (count === 0) {
-    const data = JSON.parse(fs.readFileSync('./car.json', 'utf-8'));
+    const data = JSON.parse(fs.readFileSync(carsPath, 'utf-8'));
     await Car.insertMany(data);
-    console.log('Cars aus JSON wurden eingefügt.');
+    console.log('Mietautos aus JSON wurden eingefügt.');
   } else {
-    console.log('Cars sind bereits vorhanden.');
+    console.log('Mietautos sind bereits vorhanden.');
   }
 }
