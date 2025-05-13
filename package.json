@@ -3,5 +3,10 @@
   "dependencies": {
     "open": "^10.1.2",
     "path": "^0.12.7"
-  }
+  },
+  "workspaces": [
+    "services/flight-service",
+    "services/hotel-service",
+    "services/rentalcar-service"
+  ]
 }
