@@ -29,22 +29,6 @@ This project is brought to you by **Maurice Baumann**, **Bendix Greiner**, and *
 
 ---
 
-## Screenshots
-
-**Homepage**  
-![Homepage Screenshot](./git-assets/home.jpg)
-
-**Hotel Selection**  
-![Hotel Selection Screenshot](./git-assets/hotel.png)
-
-**Car Rental**  
-![Car Rental Screenshot](./git-assets/cars.png)
-
-**Flight Booking**  
-![Flight Booking Screenshot](./git-assets/flight.png)
-
----
-
 ## Tech Stack 
 
 The project leverages the following tools and technologies:
