@@ -69,13 +69,13 @@ The project leverages the following tools and technologies:
 2. Run the following command for every service
 
    ```
-   npm install mongoose nodemon cors dotenv express
+   npm install
    ```
-3. In the project root folder install
+3. In the project root folder do
     ```
    npm install open path
    ```
-4. When installation finished stay in root and run 
+4. When installation finished stay in root and hit 
     ```
    node run.js
    ```
