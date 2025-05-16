@@ -2,7 +2,8 @@
   "type": "module",
   "dependencies": {
     "open": "^10.1.2",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "swagger-combine": "^1.4.0"
   },
   "workspaces": [
     "services/flight-service",
