@@ -1,6 +1,5 @@
 [
   {
-    "id": 1,
     "brand": "Toyota",
     "model": "Corolla",
     "power": 150,
@@ -13,7 +12,6 @@
     "class": "Kompaktklasse"
   },
   {
-    "id": 2,
     "brand": "Volkswagen",
     "model": "Golf",
     "power": 250,
@@ -26,7 +24,6 @@
     "class": "Mittelklasse"
   },
   {
-    "id": 3,
     "brand": "Ford",
     "model": "Focus",
     "power": 150,
@@ -39,7 +36,6 @@
     "class": "Kompaktklasse"
   },
   {
-    "id": 4,
     "brand": "BMW",
     "model": "330d",
     "power": 300,
@@ -52,7 +48,6 @@
     "class": "Oberklasse"
   },
   {
-    "id": 5,
     "brand": "Audi",
     "model": "A4",
     "power": 200,
@@ -65,7 +60,6 @@
     "class": "Mittelklasse"
   },
   {
-    "id": 6,
     "brand": "Mercedes",
     "model": "C-Class",
     "power": 200,

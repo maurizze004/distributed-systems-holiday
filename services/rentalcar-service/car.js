@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const carSchema = new mongoose.Schema({
-  id: Object,
+  // id: Object,
   brand: String,
   model: String,
   power: String,
