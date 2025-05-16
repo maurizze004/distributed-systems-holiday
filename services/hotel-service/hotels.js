@@ -1,110 +1,134 @@
 import express from 'express';
-import Hotel from './hotel.js';
+import {
+  getAllHotels,
+  getHotelById,
+  createHotel,
+  updateHotel,
+  deleteHotel
+} from './hotelController.js';
 
 const router = express.Router();
 
-
-// Route to get all hotels
 /**
  * @swagger
  * /hotels/get:
  *   get:
- *     summary: Gibt alle Hotels zurück
+ *     summary: Gibt eine Liste aller Hotels zurück (optional mit Filter).
+ *     tags: [Hotels]
+ *     parameters:
+ *       - in: query
+ *         name: name
+ *         schema:
+ *           type: string
+ *         description: Filtere Hotels nach Name
+ *       - in: query
+ *         name: location
+ *         schema:
+ *           type: string
+ *         description: Filtere Hotels nach Ort
  *     responses:
  *       200:
- *         description: Erfolgreich
+ *         description: Liste der Hotels
+*/
+router.get('/get', getAllHotels);
+/**
+ * @swagger
+ * /hotels/find:
+ *   get:
+ *     summary: Suche Hotels nach ID oder Suchbegriff (Name oder Ort).
+ *     tags: [Hotels]
+ *     parameters:
+ *       - in: query
+ *         name: query
+ *         schema:
+ *           type: string
+ *         description: Suchbegriff (Name oder Ort)
+ *     responses:
+ *       200:
+ *         description: Gefundene Hotels oder Hotel
+ *       404:
+ *         description: Kein Hotel gefunden
  */
-router.get('/get', async (req, res) => {
-    try {
-        const hotelData = await Hotel.find();
-        res.json(hotelData);
-    } catch (error) {
-        res.status(500).json({ message: 'Error retrieving hotels', error });
-    }
-});
-
-// Route to search hotels by name or location
-router.get('/find', async (req, res) => {
-    try {
-        const { query } = req.query;
-
-        if (!query || query.trim() === '') {
-            return res.status(400).json({ message: 'Query parameter is required' });
-        }
-
-        // Case-insensitive partial match for name or location
-        const hotels = await Hotel.find({
-            $or: [
-                { name: { $regex: query, $options: 'i' } },
-                { location: { $regex: query, $options: 'i' } }
-            ]
-        });
-
-        // If no hotels are found, return an empty array
-        res.json(hotels);
-    } catch (error) {
-        res.status(500).json({ message: 'Error searching hotels', error });
-    }
-});
-
-// Route to create a new 
+router.get('/find', getHotelById);
 /**
  * @swagger
  * /hotels/create:
  *   post:
- *     summary: Legt ein neues Hotel an
+ *     summary: Erstelle ein neues Hotel
+ *     tags: [Hotels]
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Hotel'
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               location:
+ *                 type: string
+ *               stars:
+ *                 type: integer
+ *               price_per_night:
+ *                 type: number
+ *               amenities:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *               available_rooms:
+ *                 type: integer
+ *               description:
+ *                 type: string
+ *               image_url:
+ *                 type: string
  *     responses:
  *       201:
- *         description: Hotel erfolgreich angelegt
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Hotel'
+ *         description: Hotel erstellt
  */
-router.post('/create', async (req, res) => {
-    try {
-        const newHotel = new Hotel(req.body);
-        const savedHotel = await newHotel.save();
-        res.status(201).json(savedHotel);
-    } catch (error) {
-        res.status(400).json({message: "Fehler beim Anlegene eines neuen Hotels", error})
-    }
-});
-
-// Route to update a hotel by ID
-router.put('/update/:id', async (req, res) => {
-    try {
-      const updatedHotel = await Hotel.findByIdAndUpdate(
-        req.params.id,
-        req.body,
-        { new: true, runValidators: true }
-      );
-      if (!updatedHotel) {
-        return res.status(404).json({ message: 'Hotel nicht gefunden' });
-      }
-      res.json(updatedHotel);
-    } catch (error) {
-      res.status(400).json({ message: 'Fehler beim bearbeiten des Hotels', error });
-    }rror 
-});
-
-// Route to delete a hotel by ID
-router.delete('/delete/:id', async (req, res) => {
-    try {
-      const deletedHotel = await Hotel.findByIdAndDelete(req.params.id);
-      if (!deletedHotel) {
-        return res.status(404).json({ message: 'Hotel nicht gefunden' });
-      }
-      res.json({ message: 'Hotel erfolgreich gelöscht' });
-    } catch (error) {
-      res.status(400).json({ message: 'Fehler beim löschen des Hotels', error });
-    }
-});
+router.post('/create', createHotel);
+/**
+ * @swagger
+ * /hotels/update/{id}:
+ *   put:
+ *     summary: Aktualisiere ein bestehendes Hotel
+ *     tags: [Hotels]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Hotel-ID
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *     responses:
+ *       200:
+ *         description: Hotel aktualisiert
+ */
+router.put('/update/:id', updateHotel);
+/**
+ * @swagger
+ * /hotels/delete/{id}:
+ *   delete:
+ *     summary: Lösche ein Hotel
+ *     tags: [Hotels]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Hotel-ID
+ *     responses:
+ *       200:
+ *         description: Hotel erfolgreich gelöscht
+ *       404:
+ *         description: Hotel nicht gefunden
+ */
+router.delete('/delete/:id', deleteHotel);
 
 export default router;
