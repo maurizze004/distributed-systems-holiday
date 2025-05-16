@@ -1,13 +1,11 @@
 import express from 'express';
 import {
-    getAllFlights,
-    getFlightById,
-    createFlight,
-    updateFlight,
-    deleteFlight
+  getAllFlights,
+  getFlightById,
+  createFlight,
+  updateFlight,
+  deleteFlight
 } from './flightController.js';
-
-// import { isAdmin } from '../authMiddleware.js'; // [6][8]
 
 const router = express.Router();
 
@@ -35,33 +33,37 @@ const router = express.Router();
  *               items:
  *                 $ref: '#/components/schemas/Flight'
  */
-router.get('/get', getAllFlights); // Alle Flüge abrufen
+router.get('/get', getAllFlights);
+
 /**
  * @swagger
  * /flights/find:
  *   get:
- *     summary: Flug nach ID abrufen
+ *     summary: Flüge nach Zielflughafen suchen
  *     tags: [Flights]
  *     parameters:
- *       - in: path
- *         name: id
+ *       - in: query
+ *         name: city
  *         schema:
  *           type: string
  *         required: true
- *         description: Die ID des Flugs
+ *         description: Zielflughafen (z. B. FRA, BER, LHR)
  *     responses:
  *       200:
- *         description: Erfolgreich abgerufen. Gibt den Flug zurück.
+ *         description: Erfolgreich abgerufen. Gibt alle Flüge mit passendem Zielflughafen zurück.
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Flight'
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Flight'
+ *       400:
+ *         description: Stadtparameter fehlt
  *       404:
- *         description: Flug nicht gefunden
+ *         description: Keine passenden Flüge gefunden
  */
-router.get('/find', getFlightById); // Flug nach ID abrufen
+router.get('/find', getFlightById);
 
-// Geschützte Routen (nur für Admins)
 /**
  * @swagger
  * /flights/create:
@@ -73,7 +75,7 @@ router.get('/find', getFlightById); // Flug nach ID abrufen
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Flight'
+ *             $ref: '#/components/schemas/NewFlight'
  *     responses:
  *       201:
  *         description: Flug erfolgreich erstellt
@@ -84,10 +86,11 @@ router.get('/find', getFlightById); // Flug nach ID abrufen
  *       400:
  *         description: Fehlerhafte Anfrage
  */
-router.post('/create', createFlight); // Neuen Flug erstellen
+router.post('/create', createFlight);
+
 /**
  * @swagger
- * /flights/update/:id:
+ * /flights/update/{id}:
  *   put:
  *     summary: Flug aktualisieren (Admin)
  *     tags: [Flights]
@@ -103,7 +106,7 @@ router.post('/create', createFlight); // Neuen Flug erstellen
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Flight'
+ *             $ref: '#/components/schemas/NewFlight'
  *     responses:
  *       200:
  *         description: Flug erfolgreich aktualisiert
@@ -116,10 +119,11 @@ router.post('/create', createFlight); // Neuen Flug erstellen
  *       404:
  *         description: Flug nicht gefunden
  */
-router.put('/update/:id', updateFlight); // Flug aktualisieren
+router.put('/update/:id', updateFlight);
+
 /**
  * @swagger
- * /flights/delete/:id:
+ * /flights/delete/{id}:
  *   delete:
  *     summary: Flug löschen (Admin)
  *     tags: [Flights]
@@ -131,25 +135,20 @@ router.put('/update/:id', updateFlight); // Flug aktualisieren
  *         required: true
  *         description: Die ID des Flugs
  *     responses:
- *       204:
+ *       200:
  *         description: Flug erfolgreich gelöscht
  *       404:
  *         description: Flug nicht gefunden
  */
-router.delete('/delete/:id', deleteFlight); // Flug löschen
+router.delete('/delete/:id', deleteFlight);
 
-// // Geschützte Routen (nur für Admins)
-// router.post('/', isAdmin, createFlight); // Neuen Flug erstellen
-// router.put('/:id', isAdmin, updateFlight); // Flug aktualisieren
-// router.delete('/:id', isAdmin, deleteFlight); // Flug löschen
-
-// Exportiere den Router
 export default router;
+
 /**
  * @swagger
  * components:
  *   schemas:
- *     Flight:
+ *     NewFlight:
  *       type: object
  *       required:
  *         - airline
@@ -161,43 +160,41 @@ export default router;
  *         - price
  *         - seats_available
  *       properties:
- *         _id:
- *           type: string
- *           description: Die automatisch vergebene ID des Flugs
  *         airline:
  *           type: string
- *           description: Name der Fluggesellschaft
  *         flight_number:
  *           type: string
- *           description: Flugnummer
  *         departure_airport:
  *           type: string
- *           description: Abflughafen
  *         arrival_airport:
  *           type: string
- *           description: Zielflughafen
  *         departure_time:
  *           type: string
  *           format: date-time
- *           description: Abflugzeit
  *         arrival_time:
  *           type: string
  *           format: date-time
- *           description: Ankunftszeit
  *         price:
  *           type: number
- *           description: Preis des Flugs
  *         seats_available:
  *           type: integer
- *           description: Verfügbare Sitzplätze
  *       example:
- *         _id: "6644e1f3c8e4a2b1c8f4a2b1"
- *         airline: "KLM"
- *         flight_number: "AI675"
- *         departure_airport: "LHR"
- *         arrival_airport: "FRA"
- *         departure_time: "2025-05-09T19:19:29.306Z"
- *         arrival_time: "2025-05-09T22:19:29.306Z"
- *         price: 155.75
- *         seats_available: 128
+ *         airline: "Lufthansa"
+ *         flight_number: "LH123"
+ *         departure_airport: "MUC"
+ *         arrival_airport: "BER"
+ *         departure_time: "2025-06-01T08:00:00.000Z"
+ *         arrival_time: "2025-06-01T09:00:00.000Z"
+ *         price: 120.50
+ *         seats_available: 85
+ * 
+ *     Flight:
+ *       allOf:
+ *         - $ref: '#/components/schemas/NewFlight'
+ *         - type: object
+ *           properties:
+ *             _id:
+ *               type: string
+ *               description: Automatisch vergebene ID des Flugs
  */
+

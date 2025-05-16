@@ -62,7 +62,7 @@ export const updateFlight = async (req, res) => {
 export const deleteFlight = async (req, res) => {
   try {
     await Flight.findByIdAndDelete(req.params.id);
-    res.status(204).send();
+    res.status(200).send();
   } catch (error) {
     res.status(400).json({ message: 'Löschen fehlgeschlagen', error });
   }
