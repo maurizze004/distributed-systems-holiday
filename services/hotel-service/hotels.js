@@ -132,3 +132,56 @@ router.put('/update/:id', updateHotel);
 router.delete('/delete/:id', deleteHotel);
 
 export default router;
+
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Hotel:
+ *       type: object
+ *       required:
+ *         - name
+ *         - location
+ *         - price_per_night
+ *       properties:
+ *         _id:
+ *           type: string
+ *           description: Die automatisch vergebene ID des Hotels
+ *         name:
+ *           type: string
+ *           description: Name des Hotels
+ *         location:
+ *           type: string
+ *           description: Standort des Hotels
+ *         stars:
+ *           type: integer
+ *           minimum: 1
+ *           maximum: 5
+ *           description: Sternebewertung
+ *         price_per_night:
+ *           type: number
+ *           description: Preis pro Nacht in Euro
+ *         amenities:
+ *           type: array
+ *           items:
+ *             type: string
+ *           description: Liste von Ausstattungsmerkmalen
+ *         available_rooms:
+ *           type: integer
+ *           description: Verfügbare Zimmeranzahl
+ *         description:
+ *           type: string
+ *           description: Beschreibung des Hotels
+ *         image_url:
+ *           type: string
+ *           description: Bild-URL des Hotels
+ *       example:
+ *         name: Hotel Berlin Central
+ *         location: Berlin
+ *         stars: 4
+ *         price_per_night: 89.99
+ *         amenities: [WLAN, Frühstück, Fitnessstudio]
+ *         available_rooms: 12
+ *         description: Zentrales Hotel mit modernen Zimmern
+ *         image_url: https://example.com/hotel.jpg
+ */
