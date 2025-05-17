@@ -6,7 +6,8 @@ import path from 'path';
 const services = [
     {path: './services/flight-service/server.js', name: 'Flüge'},
     {path: './services/hotel-service/server.js', name: 'Hotels'},
-    {path: './services/rentalcar-service/server.js', name: 'Mietwagen'}
+    {path: './services/rentalcar-service/server.js', name: 'Mietwagen'},
+    {path: './swagger-aggregator.js', name: 'Swagger Aggregator'}
 ].map(service => ({
     ...service,
     path: path.resolve(service.path)

@@ -1,42 +1,189 @@
-import express from 'express';
-import Car from './car.js';
+import express from "express";
+
+import {
+    getAllCars,
+    searchCars,
+    createCar,
+    updateCar,
+    deleteCar
+} from "./carController.js";
 
 const router = express.Router();
 
-// Route to get all cars
-router.get('/get', async (req, res) => {
-    try {
-        const carData = await Car.find();
-        res.json(carData);
-    } catch (error) {
-        res.status(500).json({ message: 'Error retrieving cars', error });
-    }
-});
+// Öffentliche Routen
+/**
+ * @swagger
+ * tags:
+ *   name: Cars
+ *   description: Autoverwaltung und Abfrage
+ */
 
-// Route to search cars by brand, model, or class
-router.get('/find', async (req, res) => {
-    try {
-        const { query } = req.query;
+/**
+ * @swagger
+ * /cars/get:
+ *   get:
+ *     summary: Alle Autos abrufen
+ *     tags: [Cars]
+ *     responses:
+ *       200:
+ *         description: Liste aller Autos
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Car'
+ */
+router.get("/get", getAllCars);
+/**
+ * @swagger
+ * /cars/find:
+ *   get:
+ *     summary: Autos nach Marke, Modell oder Klasse suchen
+ *     tags: [Cars]
+ *     parameters:
+ *       - in: query
+ *         name: query
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Suchbegriff für Marke, Modell oder Klasse
+ *     responses:
+ *       200:
+ *         description: Gefundene Autos
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Car'
+ *       400:
+ *         description: Ungültige Anfrage
+ *       404:
+ *         description: Keine Autos gefunden
+ */
+router.get("/find", searchCars);
 
-        // Überprüfen, ob ein Suchbegriff übergeben wurde
-        if (!query || query.trim() === '') {
-            return res.status(400).json({ message: 'Query parameter is required' });
-        }
-
-        // Case-insensitive Suche basierend auf brand, model oder class
-        const cars = await Car.find({
-            $or: [
-                { brand: { $regex: query, $options: 'i' } },
-                { model: { $regex: query, $options: 'i' } },
-                { class: { $regex: query, $options: 'i' } }
-            ]
-        });
-
-        // Ergebnis zurückgeben
-        res.json(cars);
-    } catch (error) {
-        res.status(500).json({ message: 'Error searching cars', error });
-    }
-});
+// ADMIN Routen
+/**
+ * @swagger
+ * /cars/create:
+ *   post:
+ *     summary: Neues Auto erstellen (Admin)
+ *     tags: [Cars]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Car'
+ *     responses:
+ *       201:
+ *         description: Auto erfolgreich erstellt
+ *       400:
+ *         description: Fehler beim Erstellen
+ */
+router.post("/create", createCar);
+/**
+ * @swagger
+ * /cars/update/{id}:
+ *   put:
+ *     summary: Auto aktualisieren (Admin)
+ *     tags: [Cars]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID des Autos
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Car'
+ *     responses:
+ *       200:
+ *         description: Auto erfolgreich aktualisiert
+ *       400:
+ *         description: Fehler beim Aktualisieren
+ */
+router.put("/update/:id", updateCar);
+/**
+ * @swagger
+ * /cars/delete/{id}:
+ *   delete:
+ *     summary: Auto löschen (Admin)
+ *     tags: [Cars]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID des Autos
+ *     responses:
+ *       200:
+ *         description: Auto erfolgreich gelöscht
+ *       404:
+ *         description: Auto nicht gefunden
+ *       500:
+ *         description: Fehler beim Löschen
+ */
+router.delete("/delete/:id", deleteCar);
 
 export default router;
+
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Car:
+ *       type: object
+ *       required:
+ *         - brand
+ *         - model
+ *         - daily_rate
+ *         - year
+ *         - power
+ *         - fuel_type
+ *         - class
+ *         - is_available
+ *       properties:
+ *         _id:
+ *           type: string
+ *           description: Automatisch generierte ID
+ *         brand:
+ *           type: string
+ *           example: BMW
+ *         model:
+ *           type: string
+ *           example: M3
+ *         daily_rate:
+ *           type: number
+ *           format: float
+ *           example: 119.99
+ *         year:
+ *           type: integer
+ *           example: 2020
+ *         power:
+ *           type: integer
+ *           example: 480
+ *         fuel_type:
+ *           type: string
+ *           example: Benzin
+ *         class:
+ *           type: string
+ *           example: Sportwagen
+ *         is_available:
+ *           type: boolean
+ *           example: true
+ *         occupied_until:
+ *           type: string
+ *           format: date
+ *           example: 2025-06-01
+ *         imageUrl:
+ *           type: string
+ *           example: https://example.com/images/bmw-m3.jpg
+ */
