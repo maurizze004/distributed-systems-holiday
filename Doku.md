@@ -25,7 +25,7 @@
 
 ## 1. Einleitung
 
-Diese Dokumentation beschreibt die Konzeption, Umsetzung und Nutzung des Projekts "Mein Urlaub", das im Rahmen der Vorlesung "Verteilte Systeme" an der DHBW Heilbronn im Sommersemester 2023 realisiert wurde. Das System basiert auf einer Microservice-Architektur und ermöglicht es Benutzern, Urlaubsangebote wie Hotels, Flüge und Mietwagen zu durchsuchen. Eine Buchungsfunktion ist konzeptionell angelegt, aber aktuell nicht vollständig implementiert.
+Diese Dokumentation beschreibt die Konzeption, Umsetzung und Nutzung des Projekts "Mein Urlaub", das im Rahmen der Vorlesung "Verteilte Systeme" an der DHBW Heilbronn realisiert wurde. Das System basiert auf einer Microservice-Architektur und ermöglicht es Benutzern, Urlaubsangebote wie Hotels, Flüge und Mietwagen zu durchsuchen. Eine Buchungsfunktion ist konzeptionell angelegt, aber aktuell nicht vollständig implementiert.
 
 ## 2. Zielsetzung
 
