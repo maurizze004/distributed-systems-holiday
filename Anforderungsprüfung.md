@@ -1,0 +1,15 @@
+| **Anforderung**                                         | **Erfüllt?** | **Begründung**                                                                                                                |
+| ------------------------------------------------------- | ------------ | ----------------------------------------------------------------------------------------------------------------------------- |
+| **Unabhängige Microservices auf Serverseite**           | ✅ Ja         | Hotel-, Flug-, Mietwagen- und Buchungsservice sind jeweils eigene Node.js-/Express-Anwendungen mit eigener MongoDB-Datenbank. |
+| **Keine Authentifizierung (nice-to-have)**              | ✅ Ja         | Im Code und der Doku ist keine Authentifizierung implementiert, was mit der Anforderung übereinstimmt.                        |
+| **CRUD per API für Admin**                              | ✅ Ja         | Admin-Frontend bietet Create, Read, Update, Delete über HTTP-Endpoints für alle Services.                                     |
+| **User kann nur lesen**                                 | ✅ Ja         | Das User-Frontend bietet ausschließlich lesenden Zugriff (GET-Endpunkte).                                                     |
+| **Dokumentation zur Vorgehensweise**                    | ✅ Ja         | Abschnitt 7 in der Projektdokumentation beschreibt den Ablauf der Projektumsetzung.                                           |
+| **Dokumentation Architektur**                           | ✅ Ja         | In Abschnitt 3 der Dokumentation ist eine übersichtliche Beschreibung inkl. Architekturdiagramm vorhanden.                    |
+| **Dokumentation für Benutzer**                          | ✅ Ja         | Abschnitt 8 beschreibt klar die Nutzung beider Frontends.                                                                     |
+| **Vorschlag für Hosting**                               | ✅ Ja         | Abschnitt 9 enthält konkrete Plattformempfehlungen (Render, Railway) inkl. Preisübersicht.                                    |
+| **Umsetzung mit ExpressJS**                             | ✅ Ja         | Alle Services nutzen Express.js als Framework.                                                                                |
+| **Umsetzung mit MongoDB**                               | ✅ Ja         | Jeder Microservice nutzt eine eigene MongoDB-Datenbank.                                                                       |
+| **Bootstrap im Frontend**                               | ✅ Ja         | Das Admin-Frontend nutzt Bootstrap laut Dokumentation und Code.                                                               |
+| **Sinnvolle Beispieldaten vorhanden**                   | ✅ Teilweise  | In den Services sind Beispielobjekte vorgesehen, aber es könnten mehr realistische Seed-Daten ergänzt werden.                 |
+| **Optional: Deployment auf PaaS (Heroku, Render etc.)** | ❌ Noch nicht | Deployment wird vorgeschlagen, aber keine Live-Instanz ist implementiert oder verlinkt.                                       |
