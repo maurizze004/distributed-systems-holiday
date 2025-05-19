@@ -1,10 +1,130 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>TravelMate – Adminbereich</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="./admin.css">
 </head>
 <body>
+<nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container">
+        <a class="navbar-brand" href="#"><i class="bi bi-airplane me-2"></i>TravelMate Admin</a>
+        <div class="ms-auto">
+            <a class="btn btn-outline-light btn-sm" href="../user-frontend/index.html">Zur User Ansicht</a>
+        </div>
+    </div>
+</nav>
 
+<div class="container py-4">
+
+    <div id="template-modal" class="modal fade" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <form id="entityForm">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalLabel"></h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Schließen"></button>
+                    </div>
+                    <div class="modal-body row g-3" id="modalBody">
+                        <!-- Dynamic Modal here -->
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-dark">Speichern</button>
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Abbrechen</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <ul class="nav nav-tabs" id="adminTabs" role="tablist">
+        <li class="nav-item">
+            <button class="nav-link active" id="hotels-tab" data-bs-toggle="tab" data-bs-target="#hotels" type="button" role="tab">Hotels</button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link" id="flights-tab" data-bs-toggle="tab" data-bs-target="#flights" type="button" role="tab">Flüge</button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link" id="cars-tab" data-bs-toggle="tab" data-bs-target="#cars" type="button" role="tab">Mietwagen</button>
+        </li>
+    </ul>
+
+    <div class="tab-content" id="adminTabsContent">
+        <div class="tab-pane fade show active" id="hotels" role="tabpanel">
+            <div class="section-header">
+                <h2>Hotels verwalten</h2>
+                <button class="btn btn-dark btn-sm" onclick="openEntityForm('Hotel', hotelFields)">+ Neues Hotel</button>
+            </div>
+            <table class="table table-striped table-bordered align-middle">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Ort</th>
+                    <th>Preis/Nacht</th>
+                    <th>Ausstattung</th>
+                    <th>Freie Zimmer</th>
+                    <th>Beschreibung</th>
+                    <th>Bild URL</th>
+                    <th>Sterne</th>
+                    <th>Operationen</th>
+                </tr>
+                </thead>
+                <tbody id="hotels-table"></tbody>
+            </table>
+        </div>
+        <div class="tab-pane fade" id="flights" role="tabpanel">
+            <div class="section-header">
+                <h2>Flüge verwalten</h2>
+                <button class="btn btn-dark btn-sm" onclick="openEntityForm('Flug', flightFields)">+ Neuer Flug</button>
+            </div>
+            <table class="table table-striped table-bordered align-middle">
+                <thead>
+                <tr>
+                    <th>Airline</th>
+                    <th>Flugnummer</th>
+                    <th>Abflugort</th>
+                    <th>Ankuftsort</th>
+                    <th>Abflugzeit</th>
+                    <th>Ankunftszeit</th>
+                    <th>Preis</th>
+                    <th>Freie Sitze</th>
+                    <th>Aktionen</th>
+                </tr>
+                </thead>
+                <tbody id="flights-table"><!-- Dynamischer Inhalt --></tbody>
+            </table>
+        </div>
+        <div class="tab-pane fade" id="cars" role="tabpanel">
+            <div class="section-header">
+                <h2>Mietwagen verwalten</h2>
+                <button class="btn btn-dark btn-sm" onclick="openEntityForm('Mietwagen', carFields)">+ Neues Fahrzeug</button>
+            </div>
+            <table class="table table-striped table-bordered align-middle">
+                <thead>
+                <tr>
+                    <th>Marke</th>
+                    <th>Modell</th>
+                    <th>PS</th>
+                    <th>Baujahr</th>
+                    <th>Preis/Tag</th>
+                    <th>Kraftstoff</th>
+                    <th>Verfügbarkeit</th>
+                    <th>Vergeben bis</th>
+                    <th>Bild-URL</th>
+                    <th>Klasse</th>
+                    <th>Aktionen</th>
+                </tr>
+                </thead>
+                <tbody id="cars-table"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="./admin.js"></script>
 </body>
 </html>

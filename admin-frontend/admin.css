@@ -1,0 +1,47 @@
+body {
+    background: linear-gradient(to bottom right, #f0f4f8, #dce7f0);
+    font-family: 'Helvetica Neue', sans-serif;
+    color: #212529;
+}
+
+.navbar {
+    background-color: #05164d;
+}
+
+.navbar-brand {
+    font-weight: 600;
+    font-size: 1.25rem;
+}
+
+.tab-pane {
+    padding-top: 1rem;
+}
+
+.table thead {
+    background-color: #05164d;
+    color: #fff;
+}
+
+.btn-sm {
+    font-size: 0.85rem;
+}
+
+.form-inline {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.section-header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 500;
+}
