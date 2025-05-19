@@ -11,7 +11,7 @@ export const getAllHotels = async (req, res) => {
 };
 
 // Get hotel by ID
-export const getHotelById = async (req, res) => {
+export const findHotelById = async (req, res) => {
     const hotelId = req.params.id;
     const { query } = req.query;
 
@@ -42,6 +42,21 @@ export const getHotelById = async (req, res) => {
         return res.status(400).json({ message: "Bitte geben Sie eine Hotel-ID oder einen Suchbegriff an." });
     } catch (error) {
         res.status(500).json({ message: "Fehler bei der Hotelsuche", error });
+    }
+};
+
+// GET hotel by ID
+export const getHotelById = async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const hotel = await Hotel.findById(id);
+        if (!hotel) {
+            return res.status(404).json({ message: "Hotel nicht gefunden" });
+        }
+        res.json(hotel);
+    } catch (error) {
+        res.status(500).json({ message: "Fehler beim Abrufen des Hotels", error });
     }
 };
 

@@ -10,7 +10,7 @@ export const getAllCars = async (req, res) => {
     }
 };
 
-// GET car by ID
+// GET car
 export const searchCars = async (req, res) => {
     const query = req.query.query;
 
@@ -39,7 +39,20 @@ export const searchCars = async (req, res) => {
     }
 };
 
+// GET car by ID
+export const getCarById = async (req, res) => {
+    const { id } = req.params;
 
+    try {
+        const car = await Car.findById(id);
+        if (!car) {
+            return res.status(404).json({ message: "Auto nicht gefunden" });
+        }
+        res.json(car);
+    } catch (error) {
+        res.status(500).json({ message: "Fehler beim Abrufen des Autos", error });
+    }
+};
 
 
 

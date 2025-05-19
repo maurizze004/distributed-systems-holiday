@@ -27,6 +27,9 @@ This project is brought to you by **Maurice Baumann**, **Bendix Greiner**, and *
 5. **Personalized Recommendations**   
    Get suggestions based on your travel history and preferences.
 
+6. **Swagger UI**<br>
+   We built a [swagger](http://localhost:4000/api-docs) for showing and testing our endpoints
+
 ---
 
 ## Tech Stack 
@@ -37,7 +40,7 @@ The project leverages the following tools and technologies:
 - **Frontend**: HTML, CSS, JavaScript
 - **Frameworks**: Bootstrap for frontend styling
 - **Database**: Mongo DB
-- **IDE**: IntelliJ IDEA Ultimate
+- **IDE**: IntelliJ IDEA Ultimate & VS Code
 - **Version Control**: Git
 
 ---
@@ -59,7 +62,7 @@ The project leverages the following tools and technologies:
     ```
    npm install open path
    ```
-4. When installation finished stay in root and hit 
+4. When installation is finished, stay in root and hit 
     ```
    node run.js
    ```

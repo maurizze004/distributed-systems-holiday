@@ -1,11 +1,12 @@
 import express from 'express';
 import {
   getAllHotels,
-  getHotelById,
+  findHotelById,
   createHotel,
   updateHotel,
-  deleteHotel
+  deleteHotel, getHotelById
 } from './hotelController.js';
+import {getFlightById} from "flight-service/flightController.js";
 
 const router = express.Router();
 
@@ -30,6 +31,8 @@ const router = express.Router();
  *       200:
  *         description: Liste der Hotels
 */
+router.get('/get/:id', getHotelById);
+
 router.get('/get', getAllHotels);
 /**
  * @swagger
@@ -49,7 +52,7 @@ router.get('/get', getAllHotels);
  *       404:
  *         description: Kein Hotel gefunden
  */
-router.get('/find', getHotelById);
+router.get('/find', findHotelById);
 /**
  * @swagger
  * /hotels/create:

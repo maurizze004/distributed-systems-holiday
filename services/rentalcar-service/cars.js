@@ -5,8 +5,9 @@ import {
     searchCars,
     createCar,
     updateCar,
-    deleteCar
+    deleteCar, getCarById
 } from "./carController.js";
+import {getHotelById} from "hotel-service/hotelController.js";
 
 const router = express.Router();
 
@@ -35,6 +36,8 @@ const router = express.Router();
  *                 $ref: '#/components/schemas/Car'
  */
 router.get("/get", getAllCars);
+
+router.get('/get/:id', getCarById);
 /**
  * @swagger
  * /cars/find:

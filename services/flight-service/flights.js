@@ -35,6 +35,8 @@ const router = express.Router();
  */
 router.get('/get', getAllFlights);
 
+router.get('/get/:id', getFlightById);
+
 /**
  * @swagger
  * /flights/find:
@@ -181,8 +183,8 @@ export default router;
  *       example:
  *         airline: "Lufthansa"
  *         flight_number: "LH123"
- *         departure_airport: "MUC"
- *         arrival_airport: "BER"
+ *         departure_airport: "München"
+ *         arrival_airport: "Berlin"
  *         departure_time: "2025-06-01T08:00:00.000Z"
  *         arrival_time: "2025-06-01T09:00:00.000Z"
  *         price: 120.50
