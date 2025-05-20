@@ -7,6 +7,7 @@ const services = [
     {path: './services/flight-service/server.js', name: 'Flüge'},
     {path: './services/hotel-service/server.js', name: 'Hotels'},
     {path: './services/rentalcar-service/server.js', name: 'Mietwagen'},
+    {path: './services/review-service/server.js', name: 'Bewertungen'},
     {path: './swagger-aggregator.js', name: 'Swagger Aggregator'}
 ].map(service => ({
     ...service,
