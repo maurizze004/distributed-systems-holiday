@@ -31,6 +31,12 @@ const carFields = [
     {id: "imageUrl", label: "Bild-URL (gekürzt via t1p.de)", type: "text", name: "imageUrl"},
     {id: "class", label: "Klasse", type: "text", name: "class"}
 ];
+const revField = [
+    {id: "user", label: "User", type: "text", name: "user"},
+    {id: "rating", label: "Rating", type: "number", name: "rating"},
+    {id: "hotel_id", label: "Hotel", type: "text", name: "hotel_id"},
+];
+
 function openEntityForm(entityName, fields) {
     document.getElementById('modalLabel').innerText = `${entityName} bearbeiten / hinzufügen`;
     const modalBody = document.getElementById('modalBody');
@@ -66,6 +72,9 @@ function openEntityForm(entityName, fields) {
             break;
         case "Mietwagen":
             form.onsubmit = handleCarSave;
+            break;
+        case "Bewertung":
+            form.onsubmit = handleReviewSave;
             break;
     }
 
@@ -421,6 +430,106 @@ async function editCar(carId) {
     }
 }
 
+//CRUD operations - REVIEWS
+async function handleReviewSave(event) {
+    event.preventDefault();
+
+    const formData = new FormData(event.target);
+    const reviewData = Object.fromEntries(formData.entries());
+
+    try {
+        const response = await fetch('http://localhost:3003/reviews/create', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(reviewData)
+        });
+
+        if (response.ok) {
+            await loadReviews();
+            const modal = bootstrap.Modal.getInstance(document.getElementById('template-modal'));
+            modal.hide();
+            alert('Bewertung erfolgreich hinzugefügt');
+        } else {
+            alert('Bewertung beim Hinzufügen des Autos');
+        }
+    } catch (error) {
+        console.error('Fehler beim Speichern der Bewertung:', error);
+        alert('Es gab ein Problem beim Speichern');
+    }
+}
+async function deleteReview(revId) {
+    if (!confirm('Möchten Sie diese Bewertung wirklich löschen?')) {
+        return;
+    }
+
+    try {
+        const response = await fetch(`http://localhost:3002/reviews/delete/${revId}`, {
+            method: 'DELETE',
+        });
+
+        if (response.ok) {
+            alert('Bewertung erfolgreich gelöscht');
+            await loadReviews();
+        } else {
+            const error = await response.json();
+            alert(`Fehler beim Löschen der Bewertung: ${error.message || 'Unbekannter Fehler'}`);
+        }
+    } catch (err) {
+        console.error('Fehler beim Löschen der Bewertung:', err);
+        alert(`Es gab ein Problem beim Löschen der Bewertung: ${err.message}`);
+    }
+}
+async function editReview(revId) {
+    try {
+        const response = await fetch(`http://localhost:3003/reviews/get/${revId}`);
+        const rev = await response.json();
+
+        openEntityForm("Bewertung", revField);
+
+        const form = document.getElementById("entityForm");
+        Object.keys(rev).forEach((key) => {
+            const input = form.querySelector(`[name="${key}"]`);
+            if (input) {
+                input.value = rev[key];
+            }
+        });
+
+        form.onsubmit = async function (event) {
+            event.preventDefault();
+
+            const formData = new FormData(form);
+            const updatedReview = Object.fromEntries(formData.entries());
+
+            try {
+                const updateResponse = await fetch(`http://localhost:3002/reviews/update/${revId}`, {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(updatedReview),
+                });
+
+                if (updateResponse.ok) {
+                    await loadReviews();
+                    const modal = bootstrap.Modal.getInstance(document.getElementById("template-modal"));
+                    modal.hide();
+                    alert("Bewertung erfolgreich aktualisiert");
+                } else {
+                    alert("Fehler beim Aktualisieren der Bewertung");
+                }
+            } catch (error) {
+                console.error("Fehler beim Aktualisieren der Bewertung:", error);
+                alert("Es gab ein Problem beim Aktualisieren der Bewertung");
+            }
+        };
+    } catch (error) {
+        console.error("Fehler beim Laden der Bewertung:", error);
+        alert("Es gab ein Problem beim Laden der Bewertung");
+    }
+}
+
 //load table data
 async function loadHotels() {
     const tbody = document.getElementById('hotels-table');
@@ -503,8 +612,27 @@ async function loadCars(){
         tbody.appendChild(row);
     });
 }
+async function loadReviews(){
+    const tbody = document.getElementById('revs-table');
+    tbody.innerHTML = '';
+    const res = await fetch('http://localhost:3003/reviews/get');
+    const reviews = await res.json();
+    reviews.forEach(rev => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${rev.hotel_id}</td>
+            <td>${rev.rating}</td> 
+            <td>
+                <button class="btn btn-sm btn-outline-secondary" onclick="editReview('${rev._id}')"><i class="bi bi-pencil"></i></button>
+                <button class="btn btn-sm btn-outline-danger" onclick="deleteReview('${rev._id}')"><i class="bi bi-trash"></i></button>
+            </td>
+        `;
+        tbody.appendChild(row);
+    });
+}
 
 //on-load functions
 loadHotels();
 loadFlights();
 loadCars();
+loadReviews();
