@@ -47,15 +47,23 @@ export const deleteFlight = async (req, res) => {
 
 // GET flight by ID
 export const getFlightById = async (req, res) => {
-    const { id } = req.params;
+    const city = req.query.city;
+
+    if (!city) {
+        return res.status(400).json({message: 'Bitte geben Sie eine Stadt für die Suche an.'});
+    }
 
     try {
-        const flight = await Flight.findById(id);
-        if (!flight) {
-            return res.status(404).json({ message: "Flug nicht gefunden" });
+        const flights = await Flight.find({
+            arrival_airport: {$regex: city, $options: 'i'}
+        });
+
+        if (flights.length === 0) {
+            return res.status(404).json({message: `Keine Flüge für die Stadt "${city}" gefunden.`});
         }
-        res.json(flight);
+
+        res.json(flights);
     } catch (error) {
-        res.status(500).json({ message: "Fehler beim Abrufen des Flugs", error });
+        res.status(500).json({message: 'Fehler bei der Suche nach Flügen', error});
     }
 };
