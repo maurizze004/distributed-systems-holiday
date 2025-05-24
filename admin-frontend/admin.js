@@ -465,7 +465,7 @@ async function deleteReview(revId) {
     }
 
     try {
-        const response = await fetch(`http://localhost:3002/reviews/delete/${revId}`, {
+        const response = await fetch(`http://localhost:3003/reviews/delete/${revId}`, {
             method: 'DELETE',
         });
 
@@ -612,23 +612,41 @@ async function loadCars(){
         tbody.appendChild(row);
     });
 }
-async function loadReviews(){
+async function loadReviews() {
     const tbody = document.getElementById('revs-table');
     tbody.innerHTML = '';
-    const res = await fetch('http://localhost:3003/reviews/get');
-    const reviews = await res.json();
-    reviews.forEach(rev => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-            <td>${rev.hotel_id}</td>
-            <td>${rev.rating}</td> 
-            <td>
-                <button class="btn btn-sm btn-outline-secondary" onclick="editReview('${rev._id}')"><i class="bi bi-pencil"></i></button>
-                <button class="btn btn-sm btn-outline-danger" onclick="deleteReview('${rev._id}')"><i class="bi bi-trash"></i></button>
-            </td>
-        `;
-        tbody.appendChild(row);
-    });
+
+    try {
+        const [reviewsRes, hotelsRes] = await Promise.all([
+            fetch('http://localhost:3003/reviews/get'),
+            fetch('http://localhost:3001/hotels/get'),
+        ]);
+
+        const reviews = await reviewsRes.json();
+        const hotels = await hotelsRes.json();
+
+        const hotelMap = hotels.reduce((map, hotel) => {
+            map[hotel._id] = hotel.name;
+            return map;
+        }, {});
+
+        reviews.forEach(rev => {
+            const hotelName = hotelMap[rev.hotel_id] || 'Unbekanntes Hotel';
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${hotelName}</td>
+                <td>${rev.rating}</td> 
+                <td>
+                    <button class="btn btn-sm btn-outline-secondary" onclick="editReview('${rev._id}')"><i class="bi bi-pencil"></i></button>
+                    <button class="btn btn-sm btn-outline-danger" onclick="deleteReview('${rev._id}')"><i class="bi bi-trash"></i></button>
+                </td>
+            `;
+            tbody.appendChild(row);
+        });
+    } catch (error) {
+        console.error('Fehler beim Laden der Bewertungen:', error);
+        alert('Es gab ein Problem beim Laden der Bewertungen');
+    }
 }
 
 //on-load functions
