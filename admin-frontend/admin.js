@@ -438,6 +438,16 @@ async function handleReviewSave(event) {
     const reviewData = Object.fromEntries(formData.entries());
 
     try {
+        const hotelsRes = await fetch('http://localhost:3001/hotels/get');
+        const hotels = await hotelsRes.json();
+
+        const hotel = hotels.find(h => h.name === reviewData.hotel_id);
+        if (!hotel) {
+            throw new Error('Hotel nicht gefunden');
+        }
+
+        reviewData.hotel_id = hotel._id;
+
         const response = await fetch('http://localhost:3003/reviews/create', {
             method: 'POST',
             headers: {
@@ -452,7 +462,7 @@ async function handleReviewSave(event) {
             modal.hide();
             alert('Bewertung erfolgreich hinzugefügt');
         } else {
-            alert('Bewertung beim Hinzufügen des Autos');
+            alert('Fehler beim Hinzufügen der Bewertung');
         }
     } catch (error) {
         console.error('Fehler beim Speichern der Bewertung:', error);
@@ -483,15 +493,27 @@ async function deleteReview(revId) {
 }
 async function editReview(revId) {
     try {
-        const response = await fetch(`http://localhost:3003/reviews/get/${revId}`);
-        const rev = await response.json();
+        const [reviewRes, hotelsRes] = await Promise.all([
+            fetch(`http://localhost:3003/reviews/get/${revId}`),
+            fetch('http://localhost:3001/hotels/get')
+        ]);
+
+        const rev = await reviewRes.json();
+        const hotels = await hotelsRes.json();
+
+        const hotelMap = hotels.reduce((map, hotel) => {
+            map[hotel._id] = hotel.name;
+            return map;
+        }, {});
 
         openEntityForm("Bewertung", revField);
 
         const form = document.getElementById("entityForm");
         Object.keys(rev).forEach((key) => {
             const input = form.querySelector(`[name="${key}"]`);
-            if (input) {
+            if (input && key === 'hotel_id') {
+                input.value = hotelMap[rev[key]] || 'Unbekanntes Hotel';
+            } else if (input) {
                 input.value = rev[key];
             }
         });
@@ -562,8 +584,8 @@ async function loadFlights() {
     const flights = await res.json();
     flights.forEach(flight => {
         const row = document.createElement('tr');
-        const departureTime = new Date(flight.departure_time).toLocaleString();
-        const arrivalTime = new Date(flight.arrival_time).toLocaleString();
+        const departureTime = new Date(flight.departure_time).toLocaleString('de-DE');
+        const arrivalTime = new Date(flight.arrival_time).toLocaleString('de-DE');
         row.innerHTML = `
             <td>${flight.airline}</td>
             <td>${flight.flight_number}</td> 
@@ -630,15 +652,34 @@ async function loadReviews() {
             return map;
         }, {});
 
-        reviews.forEach(rev => {
-            const hotelName = hotelMap[rev.hotel_id] || 'Unbekanntes Hotel';
+        // Group reviews by hotel_id and calculate average rating
+        const hotelRatings = reviews.reduce((acc, rev) => {
+            if (!acc[rev.hotel_id]) {
+                acc[rev.hotel_id] = {
+                    count: 0,
+                    total: 0,
+                    reviews: []
+                };
+            }
+            acc[rev.hotel_id].count++;
+            acc[rev.hotel_id].total += rev.rating;
+            acc[rev.hotel_id].reviews.push(rev);
+            return acc;
+        }, {});
+
+        Object.keys(hotelRatings).forEach(hotelId => {
+            const hotelData = hotelRatings[hotelId];
+            const averageRating = (hotelData.total / hotelData.count).toFixed(1);
+            const hotelName = hotelMap[hotelId] || 'Unbekanntes Hotel';
             const row = document.createElement('tr');
             row.innerHTML = `
                 <td>${hotelName}</td>
-                <td>${rev.rating}</td> 
+                <td>${averageRating}</td> 
                 <td>
-                    <button class="btn btn-sm btn-outline-secondary" onclick="editReview('${rev._id}')"><i class="bi bi-pencil"></i></button>
-                    <button class="btn btn-sm btn-outline-danger" onclick="deleteReview('${rev._id}')"><i class="bi bi-trash"></i></button>
+                    ${hotelData.reviews.map(rev => `
+                        <button class="btn btn-sm btn-outline-secondary" onclick="editReview('${rev._id}')"><i class="bi bi-pencil"></i></button>
+                        <button class="btn btn-sm btn-outline-danger" onclick="deleteReview('${rev._id}')"><i class="bi bi-trash"></i></button>
+                    `).join(` `)}
                 </td>
             `;
             tbody.appendChild(row);

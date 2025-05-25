@@ -1,4 +1,4 @@
-// load, show and filter flights
+// Load, show and handle flights
 async function loadFlights(sortOption = 'default') {
     const container = document.getElementById('flights-container');
     container.innerHTML = '';
@@ -8,6 +8,7 @@ async function loadFlights(sortOption = 'default') {
         if (!response.ok) throw new Error('Fehler beim Laden der Flugdaten');
         let flights = await response.json();
 
+        // Sort flights based on the provided sort option
         switch (sortOption) {
             case 'price-asc':
                 flights.sort((a, b) => a.price - b.price);
@@ -20,10 +21,16 @@ async function loadFlights(sortOption = 'default') {
                 break;
         }
 
+        // Get existing favorites from localStorage
+        const favoriteFlights = JSON.parse(localStorage.getItem('favoriteFlights')) || [];
+
+        // Render flights
         if (flights.length === 0) {
             container.innerHTML = '<p class="text-center">Keine Flüge gefunden</p>';
         } else {
             flights.forEach(flight => {
+                const isFavorited = favoriteFlights.some(favFlight => favFlight._id === flight._id);
+
                 const card = document.createElement('div');
                 card.className = 'flight-card';
 
@@ -60,11 +67,19 @@ async function loadFlights(sortOption = 'default') {
                         </div>
                     </div>
                     <div class="flight-details">
-                        <div><i class="bi bi-clock"></i>&nbsp;Dauer ${flight.departure_time && flight.arrival_time ? Math.round((new Date(flight.arrival_time).getTime() - new Date(flight.departure_time).getTime()) / (1000 * 60 * 60)) + 'h' : '-'}</div>
+                    <div><i class="bi bi-clock"></i>&nbsp;Dauer ${flight.departure_time && flight.arrival_time
+                    ? Math.round((new Date(flight.arrival_time).getTime() - new Date(flight.departure_time).getTime()) / (1000 * 60 * 60)) + 'h'
+                    : '-'}</div>
+                     <div style="display: flex; justify-content: space-between; margin-right: 10px;">
                         <div><i class="bi bi-airplane"></i>️&nbsp;Operated By ${flight.airline || '-'}&nbsp;&nbsp;${flight.flight_number}</div>
+                        <div>
+                            <i class="bi ${isFavorited ? 'bi-heart-fill' : 'bi-heart'}" 
+                             data-flight-id="${flight._id}" 
+                             style="font-size: 22px; color: ${isFavorited ? 'red' : 'gray'}; margin-left: 10px; cursor: pointer;"></i>
+                        </div>
+                    </div>
                     </div>
                   </div>
-
                   <div class="flight-separator"></div>
 
                   <div class="flight-price">
@@ -73,18 +88,43 @@ async function loadFlights(sortOption = 'default') {
                     <strong>${flight.price ? flight.price.toFixed(2) : '-'}</strong>
                   </div>
                 `;
+
                 container.appendChild(card);
+            });
+
+            document.querySelectorAll('.flight-favorite i').forEach(icon => {
+                icon.addEventListener('click', event => {
+                    const flightId = event.target.getAttribute('data-flight-id');
+                    toggleFavoriteFlight(flightId, flights);
+                });
             });
         }
     } catch (error) {
         alert('Fehler: ' + error.message);
     }
 }
+
+// Toggle favorite flight
+function toggleFavoriteFlight(flightId, flights) {
+    let favoriteFlights = JSON.parse(localStorage.getItem('favoriteFlights')) || [];
+    const flight = flights.find(h => h._id === hotelId);
+
+    if (favoriteFlights.some(favFlight => favFlight._id === flightId)) {
+        favoriteFlights = favoriteFlights.filter(favFlight => favFlight._id !== flightId);
+    } else {
+        favoriteFlights.push(flight);
+    }
+
+    localStorage.setItem('favoriteFlights', JSON.stringify(favoriteFlights));
+
+    renderFavoriteCars();
+    loadFlights();
+}
+
 document.getElementById('sort-option').addEventListener('change', (event) => {
     const selectedOption = event.target.value;
     loadFlights(selectedOption);
 });
-
 document.getElementById('search-button').addEventListener('click', async () => {
     const searchInput = document.getElementById('search-input').value.trim();
 
@@ -94,13 +134,12 @@ document.getElementById('search-button').addEventListener('click', async () => {
         return;
     }
     try {
-
         const response = await fetch(`http://localhost:3000/flights/find?city=${encodeURIComponent(searchInput)}`);
         if (!response.ok) throw new Error('Fehler beim Abrufen der Flugdaten.');
 
         const flightData = await response.json();
 
-        const container = document.getElementById('flights-container'); // Container für Flugdaten
+        const container = document.getElementById('flights-container');
         container.innerHTML = '';
 
         if (flightData.length === 0) {
@@ -115,11 +154,7 @@ document.getElementById('search-button').addEventListener('click', async () => {
                     <div class="flight-timeline">
                       <div class="flight-time">
                         ${flight.departure_time
-                    ? new Date(flight.departure_time).toLocaleTimeString('de-DE', {
-                        hour: '2-digit',
-                        minute: '2-digit',
-                        hour12: false
-                    })
+                    ? new Date(flight.departure_time).toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit', hour12: false })
                     : '-'
                 }<br />
                         <div class="flight-code">${flight.departure_airport || '-'}</div>
@@ -127,11 +162,7 @@ document.getElementById('search-button').addEventListener('click', async () => {
                       <div class="flight-line"></div>
                       <div class="flight-time">
                         ${flight.arrival_time
-                    ? new Date(flight.arrival_time).toLocaleTimeString('de-DE', {
-                        hour: '2-digit',
-                        minute: '2-digit',
-                        hour12: false
-                    })
+                    ? new Date(flight.arrival_time).toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit', hour12: false })
                     : '-'
                 }<br />
                         <div class="flight-code">${flight.arrival_airport || '-'}</div>
@@ -154,7 +185,6 @@ document.getElementById('search-button').addEventListener('click', async () => {
                     <strong>${flight.price ? flight.price.toFixed(2) : '-'}</strong>
                   </div>`;
                 container.appendChild(card);
-                document.getElementById('search-input').value = '';
             });
         }
     } catch (error) {
@@ -163,5 +193,7 @@ document.getElementById('search-button').addEventListener('click', async () => {
     }
 });
 
-// on-load functions
-loadFlights();
+document.addEventListener('DOMContentLoaded', () => {
+    loadFlights();
+    renderFavoriteFlights();
+});
