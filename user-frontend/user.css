@@ -10,7 +10,12 @@ body {
 .navbar {
     background-color: #05164d;
 }
-
+/* .navbar-login {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+} */
 .navbar-brand {
     font-weight: 600;
     font-size: 1.25rem;

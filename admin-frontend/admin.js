@@ -1,3 +1,32 @@
+document.addEventListener('DOMContentLoaded', async function() {
+  const token = localStorage.getItem('token');
+  const role = localStorage.getItem('role');
+
+  if (!token || role !== 'admin') {
+    // Kein Zugriff, weiterleiten auf Login oder Startseite
+    window.location.href = "./../../user-frontend/index.html";
+    return;
+  }
+
+  // Optional: Backend-Validierung
+  try {
+    const response = await fetch('http://localhost:3004/users/admin', {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + token
+      }
+    });
+    if (!response.ok) {
+      // Token ungültig oder keine Adminrechte
+      window.location.href = "./../../user-frontend/index.html";
+    }
+    // Optional: Admin-spezifische Daten anzeigen
+    // const data = await response.json();
+    // document.getElementById('admin-info').textContent = data.message;
+  } catch (err) {
+    window.location.href = "./../../user-frontend/index.html";
+  }
+});
 //load and set dynamic form
 const hotelFields = [
     {id: "name", label: "Hotelname", type: "text", name: "name"},
