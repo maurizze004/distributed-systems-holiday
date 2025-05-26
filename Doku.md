@@ -180,5 +180,5 @@ Für die Weiterentwicklung des Projekts bieten sich folgende Maßnahmen an:
 
 ---
 
-*Erstellt im Rahmen der Veranstaltung "Verteilte Systeme" an der DHBW Heilbronn, SoSe 2023 – Dozent: Marc Metzger* <br>
+*Erstellt im Rahmen der Veranstaltung "Verteilte Systeme" an der DHBW Heilbronn, SoSe 2025 – Dozent: Marc Metzger* <br>
 *Projekt: https://github.com/maurizze004/distributed-systems-holiday*
