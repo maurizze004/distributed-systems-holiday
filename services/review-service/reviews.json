@@ -1,20 +1,17 @@
 [
   {
-    "id": "665100000000000000000001",
-    "user": "Max Mustermann",
-    "rating": 5,
-    "hotel_id": "665000000000000000000001"
+    "username": "test",
+    "hotel_id": "68239e184920bce9f8f9fd57",
+    "rating": 5
   },
   {
-    "id": "665100000000000000000002",
-    "user": "Julia Beispiel",
-    "rating": 4,
-    "hotel_id": "664000000000000000000005"
+    "username": "maxmustermann",
+    "hotel_id": "68239e184920bce9f8f9fd57",
+    "rating": 2
   },
   {
-    "id": "665100000000000000000003",
-    "user": "Daniel Reisefreund",
-    "rating": 3,
-    "hotel_id": "665000000000000000000007"
+    "username": "admin",
+    "hotel_id": "68239e184920bce9f8f9fd57",
+    "rating": 3
   }
 ]

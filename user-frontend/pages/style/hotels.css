@@ -86,3 +86,20 @@ footer a {
 footer a:hover {
     color: #444;
 }
+
+.star {
+  font-size: 1.6rem;
+  color: #ddd;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.star.filled {
+  color: #ffc107;
+}
+.star.user-rating {
+  color: #2196f3; /* z.B. blau für eigene Bewertung */
+}
+.star:hover,
+.star.hovered {
+  color: #ff9800;
+}

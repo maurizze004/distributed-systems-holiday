@@ -64,3 +64,27 @@ export const deleteRev = async (req, res) => {
         res.status(500).json({ message: 'Fehler beim Löschen des Reviews', error });
     }
 };
+
+export const submitReview = async (req, res) => {
+  const { username, hotel_id, rating } = req.body;
+  if (rating < 0 || rating > 5)
+    return res.status(400).json({ error: "Ungültige Bewertung" });
+
+  // Update User review
+  const review = await Review.findOneAndUpdate(
+    { username, hotel_id },
+    { rating },
+    { new: true, upsert: true }
+  );
+  res.json(review);
+};
+
+export const getAverageRating = async (req, res) => {
+  const { hotel_id } = req.params;
+  const reviews = await Review.find({ hotel_id });
+  if (!reviews.length) return res.json({ average: null, count: 0 });
+
+  const sum = reviews.reduce((acc, r) => acc + r.rating, 0);
+  const average = (sum / reviews.length).toFixed(1);
+  res.json({ average, count: reviews.length });
+};
