@@ -10,7 +10,8 @@ const swaggerUrls = [
   { url: 'http://localhost:3000/api-docs/swagger.json', name: 'Flight Service' },
   { url: 'http://localhost:3001/api-docs/swagger.json', name: 'Hotel Service' },
   { url: 'http://localhost:3002/api-docs/swagger.json', name: 'Rental Car Service' },
-  { url: 'http://localhost:3003/api-docs/swagger.json', name: 'Review Service' }
+  { url: 'http://localhost:3003/api-docs/swagger.json', name: 'Review Service' },
+  { url: 'http://localhost:3004/api-docs/swagger.json', name: 'Login Service' }
 ];
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(null, {
