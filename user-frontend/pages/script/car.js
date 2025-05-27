@@ -9,6 +9,8 @@ async function loadCars(sortOption = 'default') {
         }
         const cars = await response.json();
 
+        const favoriteCars = JSON.parse(localStorage.getItem('favoriteCars')) || [];
+
         switch (sortOption) {
             case 'price-asc':
                 cars.sort((a, b) => a.daily_rate - b.daily_rate);
@@ -31,11 +33,16 @@ async function loadCars(sortOption = 'default') {
             container.innerHTML = '<p class="text-center">Keine Autos gefunden</p>';
         } else {
             cars.forEach(car => {
+                const isFavorited = favoriteCars.some(favCars => favCars._id === car._id);
                 const card = document.createElement('div');
+
                 card.className = 'col-md-4';
 
                 card.innerHTML = `
                   <div class="card car-card">
+                  <div class="favorite-icon" style="position: absolute; top: 10px; right: 10px; z-index: 2;">
+                    <i class="bi ${isFavorited ? 'bi-heart-fill' : 'bi-heart'}" data-car-id="${car._id}" style="font-size: 1.5rem; color: ${isFavorited ? 'red' : 'gray'}; cursor: pointer;"></i>
+                  </div>
                     <img src="${car.imageUrl}" alt="${car.brand} ${car.model}">
                     <div class="car-info">
                       <div class="car-name">${car.brand} ${car.model}</div>
@@ -49,7 +56,7 @@ async function loadCars(sortOption = 'default') {
                       </div>
                       <div class="car-status mt-2">
                         <span class="badge ${car.is_available ? 'bg-success' : 'bg-danger'}">
-                          ${car.is_available ? 'Verfügbar' : 'Belegt bis: ' + new Date(car.occupied_until).toLocaleDateString()}
+                          ${car.is_available ? 'Verfügbar' : 'Belegt bis: ' + new Date(car.occupied_until).toLocaleDateString('de-DE')}
                         </span>
                       </div>
                     </div>
@@ -58,13 +65,19 @@ async function loadCars(sortOption = 'default') {
 
                 container.appendChild(card);
             });
+
+            document.querySelectorAll('.favorite-icon i').forEach(icon => {
+                icon.addEventListener('click', event => {
+                    const carId = event.target.getAttribute('data-car-id');
+                    toggleFavoriteCar(carId, cars);
+                });
+            });
         }
     } catch (error) {
         console.error('Fehler:', error);
         container.innerHTML = `<p class="text-danger">Fehler beim Laden der Autodaten: ${error.message}</p>`;
     }
 }
-
 async function searchCars(query) {
     const container = document.getElementById('car-container');
     container.innerHTML = '';
@@ -118,6 +131,51 @@ async function searchCars(query) {
     }
 }
 
+function toggleFavoriteCar(carId, cars) {
+    let favoriteCars = JSON.parse(localStorage.getItem('favoriteCars')) || [];
+    const car = cars.find(c => c._id === carId);
+
+    if (favoriteCars.some(favCar => favCar._id === carId)) {
+        favoriteCars = favoriteCars.filter(favCar => favCar._id !== carId);
+    } else {
+        favoriteCars.push(car);
+    }
+
+    localStorage.setItem('favoriteCars', JSON.stringify(favoriteCars));
+
+    renderFavoriteCars();
+    loadCars();
+}
+function renderFavoriteCars() {
+    const favCarContainer = document.getElementById('fav-cars');
+    if (!favCarContainer) return;
+
+    const favoriteCars = JSON.parse(localStorage.getItem('favoriteCars')) || [];
+    favCarContainer.innerHTML = '';
+
+    if (favoriteCars.length === 0) {
+        favCarContainer.innerHTML = '<p class="text-muted">Keine favorisierten Autos gefunden.</p>';
+        return;
+    }
+
+    favoriteCars.forEach(car => {
+        const favCarItem = document.createElement('li');
+        favCarItem.className = 'list-group-item';
+        favCarItem.innerHTML = `
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span>${car.name} - ${car.location}</span>
+                <i class="bi bi-trash" style="cursor: pointer;" data-car-id="${car._id}"></i>
+            </div>
+        `;
+
+        favCarItem.querySelector('.bi-trash').addEventListener('click', () => {
+            toggleFavoriteCar(car._id, []);
+        });
+
+        favCarContainer.appendChild(favCarItem);
+    });
+}
+
 document.getElementById('sort-car-option').addEventListener('change', (event) => {
     const selectedOption = event.target.value;
     loadCars(selectedOption);
@@ -128,4 +186,7 @@ document.getElementById('search-car-button').addEventListener('click', () => {
 });
 
 // on-load functions
-loadCars();
+document.addEventListener('DOMContentLoaded', () => {
+    loadCars();
+    renderFavoriteCars();
+});

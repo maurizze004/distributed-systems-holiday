@@ -158,11 +158,11 @@ GET /flights/:id   // Flugdetails anzeigen
 
 | Komponente       | Typ         | Kosten pro Monat |
 | ---------------- | ----------- | ---------------- |
-| 3 Microservices  | Web Service | je 7 USD         |
-| MongoDB Atlas    | DB Cluster  | ab 0 USD (Free)  |
-| Frontend (Admin) | Web Service | 7 USD            |
-| Frontend (User)  | Web Service | 7 USD            |
-| **Gesamt**       |             | **35–50 USD**    |
+| 3 Microservices  | Web Service | je 7 €         |
+| MongoDB Atlas    | DB Cluster  | ab 0 €         |
+| Frontend (Admin) | Web Service | 7 €            |
+| Frontend (User)  | Web Service | 7 €            |
+| **Gesamt**       |             | **35–50 €**    |
 
 ## 10. Fazit
 
@@ -180,5 +180,5 @@ Für die Weiterentwicklung des Projekts bieten sich folgende Maßnahmen an:
 
 ---
 
-*Erstellt im Rahmen der Veranstaltung "Verteilte Systeme" an der DHBW Heilbronn, SoSe 2023 – Dozent: Marc Metzger* <br>
+*Erstellt im Rahmen der Veranstaltung "Verteilte Systeme" an der DHBW Heilbronn, SoSe 2025 – Dozent: Marc Metzger* <br>
 *Projekt: https://github.com/maurizze004/distributed-systems-holiday*
