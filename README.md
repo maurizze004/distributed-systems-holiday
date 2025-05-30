@@ -77,7 +77,8 @@ The project leverages the following tools and technologies:
 
 - **Pascal Grimm**  
   [GitHub Profile](https://github.com/PasGrimm14)
-
+  [LinkedIn Profile](https://www.linkedin.com/in/pascal-grimm-26a360366/)
+  
 
 - **Bendix Greiner**  
   [GitHub Profile](https://github.com/b3nv3l0p3r)  
