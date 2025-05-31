@@ -1,20 +1,38 @@
-[
-  {
-    "id": "665100000000000000000001",
-    "user": "Max Mustermann",
-    "rating": 5,
-    "hotel_id": "665000000000000000000001"
-  },
-  {
-    "id": "665100000000000000000002",
-    "user": "Julia Beispiel",
-    "rating": 4,
-    "hotel_id": "664000000000000000000005"
-  },
-  {
-    "id": "665100000000000000000003",
-    "user": "Daniel Reisefreund",
-    "rating": 3,
-    "hotel_id": "665000000000000000000007"
-  }
-]
+{
+  "hotel_reviews": [
+    { "user": "maxmustermann", "hotel_id": "68239e184920bce9f8f9fd57", "rating": 5 },
+    { "user": "maxmustermann", "hotel_id": "68239e184920bce9f8f9fd57", "rating": 3 },
+    { "user": "maxmustermann", "hotel_id": "68239e184920bce9f8f9fd57", "rating": 4 },
+    { "user": "maxmustermann", "hotel_id": "68239e184920bce9f8f9fd57", "rating": 2 },
+    { "user": "maxmustermann", "hotel_id": "68239e184920bce9f8f9fd57", "rating": 1 },
+    { "user": "maxmustermann", "hotel_id": "68239e184920bce9f8f9fd57", "rating": 5 },
+    { "user": "maxmustermann", "hotel_id": "68239e184920bce9f8f9fd57", "rating": 2 },
+    { "user": "maxmustermann", "hotel_id": "68239e184920bce9f8f9fd57", "rating": 4 },
+    { "user": "maxmustermann", "hotel_id": "68239e184920bce9f8f9fd57", "rating": 3 },
+    { "user": "maxmustermann", "hotel_id": "68239e184920bce9f8f9fd57", "rating": 4 }
+  ],
+  "flight_reviews": [
+    { "user": "maxmustermann", "flight_id": "f1239e184920bce9f8f9fd60", "rating": 4 },
+    { "user": "maxmustermann", "flight_id": "f1239e184920bce9f8f9fd60", "rating": 5 },
+    { "user": "maxmustermann", "flight_id": "f1239e184920bce9f8f9fd60", "rating": 2 },
+    { "user": "maxmustermann", "flight_id": "f1239e184920bce9f8f9fd60", "rating": 3 },
+    { "user": "maxmustermann", "flight_id": "f1239e184920bce9f8f9fd60", "rating": 1 },
+    { "user": "maxmustermann", "flight_id": "f1239e184920bce9f8f9fd60", "rating": 2 },
+    { "user": "maxmustermann", "flight_id": "f1239e184920bce9f8f9fd60", "rating": 4 },
+    { "user": "maxmustermann", "flight_id": "f1239e184920bce9f8f9fd60", "rating": 3 },
+    { "user": "maxmustermann", "flight_id": "f1239e184920bce9f8f9fd60", "rating": 5 },
+    { "user": "maxmustermann", "flight_id": "f1239e184920bce9f8f9fd60", "rating": 2 }
+  ],
+  "rentalcar_reviews": [
+    { "user": "maxmustermann", "rentalcar_id": "r2239e184920bce9f8f9fd63", "rating": 3 },
+    { "user": "maxmustermann", "rentalcar_id": "r2239e184920bce9f8f9fd63", "rating": 4 },
+    { "user": "maxmustermann", "rentalcar_id": "r2239e184920bce9f8f9fd63", "rating": 2 },
+    { "user": "maxmustermann", "rentalcar_id": "r2239e184920bce9f8f9fd63", "rating": 5 },
+    { "user": "maxmustermann", "rentalcar_id": "r2239e184920bce9f8f9fd63", "rating": 1 },
+    { "user": "maxmustermann", "rentalcar_id": "r2239e184920bce9f8f9fd63", "rating": 2 },
+    { "user": "maxmustermann", "rentalcar_id": "r2239e184920bce9f8f9fd63", "rating": 5 },
+    { "user": "maxmustermann", "rentalcar_id": "r2239e184920bce9f8f9fd63", "rating": 4 },
+    { "user": "maxmustermann", "rentalcar_id": "r2239e184920bce9f8f9fd63", "rating": 3 },
+    { "user": "maxmustermann", "rentalcar_id": "r2239e184920bce9f8f9fd63", "rating": 1 }
+  ]
+}
