@@ -26,7 +26,7 @@ async function loadHotels(sortOption = 'default') {
         // 4. Favoriten laden
         const favoriteHotels = JSON.parse(localStorage.getItem('favoriteHotels')) || [];
 
-        // 5. Sortierung (wie gehabt)
+        // 5. Sortierung der Hotels
         switch (sortOption) {
             case 'price-asc':
                 hotels.sort((a, b) => a.price_per_night - b.price_per_night);
