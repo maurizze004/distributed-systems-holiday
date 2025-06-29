@@ -25,3 +25,4 @@ const ReviewHotel = mongoose.model('ReviewsHotel', revSchemaHotel);
 const ReviewRentalCar = mongoose.model('ReviewsRentalCar', revSchemaRentalCar);
 
 export { ReviewFlight, ReviewHotel, ReviewRentalCar };
+
