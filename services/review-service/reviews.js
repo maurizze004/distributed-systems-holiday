@@ -5,7 +5,8 @@ import {
     getAllRevs,
     createReview,
     deleteRev,
-    updateRev
+    updateRev,
+    getAverageRating
 } from "./reviewController.js";
 
 const router = express.Router();
@@ -105,6 +106,65 @@ router.put("/update/:id", updateRev);
  *         description: Fehler beim Löschen
  */
 router.delete("/delete/:id", deleteRev);
+
+/**
+ * @swagger
+ * /reviews/getaverage/{type}/{id}:
+ *   get:
+ *     summary: Durchschnittsbewertung eines Objekts (Hotel, Flug oder Mietwagen) abrufen
+ *     tags: [Reviews]
+ *     parameters:
+ *       - in: path
+ *         name: type
+ *         required: true
+ *         schema:
+ *           type: string
+ *           enum: [hotel, flight, rentalcar]
+ *         description: Typ des zu bewertenden Objekts (hotel, flight, rentalcar)
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID des Objekts (z.B. hotel_id, flight_id, rentalcar_id)
+ *     responses:
+ *       200:
+ *         description: Durchschnittsbewertung und Anzahl der Bewertungen
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 average:
+ *                   type: number
+ *                   nullable: true
+ *                   description: Durchschnittliche Bewertung (null, wenn keine Bewertungen)
+ *                   example: 4.3
+ *                 count:
+ *                   type: integer
+ *                   description: Anzahl der Bewertungen
+ *                   example: 12
+ *       400:
+ *         description: Ungültiger Review-Typ
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: "Ungültiger Review-Typ"
+ *       500:
+ *         description: Serverfehler
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ */
+router.get("/getaverage/:type/:id", getAverageRating);
 
 export default router;
 

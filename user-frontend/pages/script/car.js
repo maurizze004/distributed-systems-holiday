@@ -3,14 +3,33 @@ async function loadCars(sortOption = 'default') {
     container.innerHTML = '';
 
     try {
-        const response = await fetch('http://localhost:3002/cars/get');
-        if (!response.ok) {
-            throw new Error(`Fehler beim Laden der Daten: ${response.status}`);
+        // 1. Mietautos laden
+        const carsRes = await fetch('http://localhost:3002/cars/get');
+        if (!carsRes.ok) {
+            throw new Error(`Fehler beim Laden der Daten: ${carsRes.status}`);
         }
-        const cars = await response.json();
+        const cars = await carsRes.json();
 
+        // 2. Für jedes Auto die Durchschnittsbewertung laden
+        const reviewPromises = cars.map(car =>
+            fetch(`http://localhost:3003/reviews/getaverage/rentalcar/${car._id}`)
+        );
+        const reviewResponses = await Promise.all(reviewPromises);
+        const reviews = await Promise.all(reviewResponses.map(res => res.json()));
+
+        // 3. Map mit Car-ID als Schüssel bauen
+        const reviewMap = {};
+        cars.forEach((car, idx) => {
+            reviewMap[car._id] = {
+                average: reviews[idx].average,
+                count: reviews[idx].count
+            };
+        });
+
+        // 4. Favoriten laden
         const favoriteCars = JSON.parse(localStorage.getItem('favoriteCars')) || [];
 
+        // 5. Sortierung der Autos
         switch (sortOption) {
             case 'price-asc':
                 cars.sort((a, b) => a.daily_rate - b.daily_rate);
@@ -28,12 +47,31 @@ async function loadCars(sortOption = 'default') {
             default:
                 break;
         }
-
+        // 6. Autos rendern
         if (cars.length === 0) {
             container.innerHTML = '<p class="text-center">Keine Autos gefunden</p>';
         } else {
             cars.forEach(car => {
+                const averageRating =
+                reviewMap[car._id]?.average !== null &&
+                    reviewMap[car._id]?.average !== undefined
+                    ? reviewMap[car._id].average
+                    : "Keine Bewertungen";
+                const reviewCount = reviewMap[car._id]?.count || 0;
+
                 const isFavorited = favoriteCars.some(favCars => favCars._id === car._id);
+
+                // Sterne-Rendering (optional)
+                function renderAverageStars(avg) {
+                    if (!avg || isNaN(avg)) return "";
+                    let starsHtml = "";
+                    for (let i = 1; i <= 5; i++) {
+                        starsHtml += `<span style="color:${i <= Math.round(avg) ? "#FFD700" : "#ccc"
+                            }">★</span>`;
+                    }
+                    return starsHtml;
+                }
+
                 const card = document.createElement('div');
 
                 card.className = 'col-md-4';
@@ -45,20 +83,27 @@ async function loadCars(sortOption = 'default') {
                   </div>
                     <img src="${car.imageUrl}" alt="${car.brand} ${car.model}">
                     <div class="car-info">
-                      <div class="car-name">${car.brand} ${car.model}</div>
-                      <div class="car-location">Berlin, Deutschland</div>
-                      <div class="car-price">ab ${car.daily_rate.toFixed(2)} € / Tag</div>
-                      <div class="car-details text-muted small mt-2">
-                        <div><strong>Leistung:</strong> ${car.power}&nbsp;PS</div>
-                        <div><strong>Baujahr:</strong> ${car.year}</div>
-                        <div><strong>Kraftstoff:</strong> ${car.fuel_type}</div>
-                        <div>${car.class}</div>
-                      </div>
-                      <div class="car-status mt-2">
-                        <span class="badge ${car.is_available ? 'bg-success' : 'bg-danger'}">
-                          ${car.is_available ? 'Verfügbar' : 'Belegt bis: ' + new Date(car.occupied_until).toLocaleDateString('de-DE')}
-                        </span>
-                      </div>
+                        <div class="car-name">${car.brand} ${car.model}</div>
+                        <div class="car-location">Berlin, Deutschland</div>
+                        <div class="car-price">ab ${car.daily_rate.toFixed(2)} € / Tag</div>
+                        <div class="car-details text-muted small mt-2">
+                            <div><strong>Leistung:</strong> ${car.power}&nbsp;PS</div>
+                            <div><strong>Baujahr:</strong> ${car.year}</div>
+                            <div><strong>Kraftstoff:</strong> ${car.fuel_type}</div>
+                            <div>${car.class}</div>
+                        </div>
+                        <div class="car-status mt-2">
+                            <span class="badge ${car.is_available ? 'bg-success' : 'bg-danger'}">
+                            ${car.is_available ? 'Verfügbar' : 'Belegt bis: ' + new Date(car.occupied_until).toLocaleDateString('de-DE')}
+                            </span>
+                        </div>
+                        <div class="hotel-reviews">
+                            <div class="average-stars">${renderAverageStars(
+                                Number(averageRating)
+                                )}
+                            </div>
+                            <div>${averageRating} / 5.0 von ${reviewCount} Bewertung(en)</div>
+                        </div>
                     </div>
                   </div>
                 `;
@@ -79,6 +124,28 @@ async function loadCars(sortOption = 'default') {
     }
 }
 async function searchCars(query) {
+    // 1. Mietautos laden
+    const carsRes = await fetch('http://localhost:3002/cars/get');
+    if (!carsRes.ok) {
+        throw new Error(`Fehler beim Laden der Daten: ${carsRes.status}`);
+    }
+    const cars = await carsRes.json();
+
+    // 2. Für jedes Auto die Durchschnittsbewertung laden
+    const reviewPromises = cars.map(car =>
+        fetch(`http://localhost:3003/reviews/getaverage/rentalcar/${car._id}`)
+    );
+    const reviewResponses = await Promise.all(reviewPromises);
+    const reviews = await Promise.all(reviewResponses.map(res => res.json()));
+
+    // 3. Map mit Car-ID als Schüssel bauen
+    const reviewMap = {};
+    cars.forEach((car, idx) => {
+        reviewMap[car._id] = {
+            average: reviews[idx].average,
+            count: reviews[idx].count
+        };
+    });
     const container = document.getElementById('car-container');
     container.innerHTML = '';
 
@@ -96,6 +163,25 @@ async function searchCars(query) {
             container.innerHTML = '<p class="text-center">Keine Autos gefunden</p>';
         } else {
             cars.forEach(car => {
+                const averageRating =
+                reviewMap[car._id]?.average !== null &&
+                    reviewMap[car._id]?.average !== undefined
+                    ? reviewMap[car._id].average
+                    : "Keine Bewertungen";
+                const reviewCount = reviewMap[car._id]?.count || 0;
+
+
+                // Sterne-Rendering (optional)
+                function renderAverageStars(avg) {
+                    if (!avg || isNaN(avg)) return "";
+                    let starsHtml = "";
+                    for (let i = 1; i <= 5; i++) {
+                        starsHtml += `<span style="color:${i <= Math.round(avg) ? "#FFD700" : "#ccc"
+                            }">★</span>`;
+                    }
+                    return starsHtml;
+                }
+
                 const card = document.createElement('div');
                 card.className = 'col-md-4';
 
@@ -117,6 +203,13 @@ async function searchCars(query) {
                           ${car.is_available ? 'Verfügbar' : 'Belegt bis: ' + new Date(car.occupied_until).toLocaleDateString()}
                         </span>
                       </div>
+                      <div class="hotel-reviews">
+                            <div class="average-stars">${renderAverageStars(
+                                Number(averageRating)
+                                )}
+                            </div>
+                            <div>${averageRating} / 5.0 von ${reviewCount} Bewertung(en)</div>
+                        </div>
                     </div>
                   </div>
                 `;

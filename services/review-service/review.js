@@ -1,12 +1,28 @@
 import mongoose from "mongoose";
 
-const revSchema = new mongoose.Schema({
+const revSchemaHotel = new mongoose.Schema({
     // id: Object,
     user: String,
     rating: Number,
     hotel_id: String
 });
 
-const Review = mongoose.model('Reviews', revSchema);
+const revSchemaFlight = new mongoose.Schema({
+    // id: Object,
+    user: String,
+    rating: Number,
+    flight_id: String
+});
 
-export default Review;
+const revSchemaRentalCar = new mongoose.Schema({
+    // id: Object,
+    user: String,
+    rating: Number,
+    rentalcar_id: String
+});
+const ReviewFlight = mongoose.model('ReviewsFlight', revSchemaFlight);
+const ReviewHotel = mongoose.model('ReviewsHotel', revSchemaHotel);
+const ReviewRentalCar = mongoose.model('ReviewsRentalCar', revSchemaRentalCar);
+
+export { ReviewFlight, ReviewHotel, ReviewRentalCar };
+

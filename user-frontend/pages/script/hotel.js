@@ -1,33 +1,32 @@
 async function loadHotels(sortOption = 'default') {
     const container = document.getElementById('hotel-container');
     container.innerHTML = '';
-
     try {
-        const [hotelsRes, reviewsRes] = await Promise.all([
-            fetch('http://localhost:3001/hotels/get'),
-            fetch('http://localhost:3003/reviews/get'),
-        ]);
+        // 1. Hotels laden
+        const hotelsRes = await fetch('http://localhost:3001/hotels/get');
+        if (!hotelsRes.ok) throw new Error('Fehler beim Laden von Hoteldaten');
+        const hotels = await hotelsRes.json();
 
-        if (!hotelsRes.ok || !reviewsRes.ok) throw new Error('Fehler beim Laden von Hoteldaten oder Bewertungen');
+        // 2. Für jedes Hotel Durchschnittsbewertung holen (API gibt {average, count} zurück)
+        const reviewPromises = hotels.map(hotel =>
+            fetch(`http://localhost:3003/reviews/getaverage/hotel/${hotel._id}`)
+        );
+        const reviewResponses = await Promise.all(reviewPromises);
+        const reviews = await Promise.all(reviewResponses.map(res => res.json()));
 
-        let hotels = await hotelsRes.json();
-        const reviews = await reviewsRes.json();
-
+        // 3. Map mit Hotel-ID als Schlüssel bauen
         const reviewMap = {};
-        reviews.forEach(review => {
-            if (!reviewMap[review.hotel_id]) {
-                reviewMap[review.hotel_id] = {totalRating: 0, count: 0};
-            }
-            reviewMap[review.hotel_id].totalRating += review.rating;
-            reviewMap[review.hotel_id].count += 1;
+        hotels.forEach((hotel, idx) => {
+            reviewMap[hotel._id] = {
+                average: reviews[idx].average,
+                count: reviews[idx].count
+            };
         });
 
-        Object.keys(reviewMap).forEach(hotelId => {
-            reviewMap[hotelId].average = (reviewMap[hotelId].totalRating / reviewMap[hotelId].count).toFixed(1);
-        });
-
+        // 4. Favoriten laden
         const favoriteHotels = JSON.parse(localStorage.getItem('favoriteHotels')) || [];
 
+        // 5. Sortierung der Hotels
         switch (sortOption) {
             case 'price-asc':
                 hotels.sort((a, b) => a.price_per_night - b.price_per_night);
@@ -46,64 +45,214 @@ async function loadHotels(sortOption = 'default') {
                 break;
         }
 
-        hotels.forEach(hotel => {
-            const averageRating = reviewMap[hotel._id]?.average || 'Keine Bewertungen';
+        // 6. Hotels rendern
+        hotels.forEach((hotel) => {
+            const averageRating =
+                reviewMap[hotel._id]?.average !== null &&
+                    reviewMap[hotel._id]?.average !== undefined
+                    ? reviewMap[hotel._id].average
+                    : "Keine Bewertungen";
             const reviewCount = reviewMap[hotel._id]?.count || 0;
 
-            const isFavorited = favoriteHotels.some(favHotel => favHotel._id === hotel._id);
+            const isFavorited = favoriteHotels.some((favHotel) => favHotel._id === hotel._id);
 
-            const col = document.createElement('div');
-            col.className = 'col-md-4';
-            col.innerHTML = `
-                <div class="card hotel-card">
+            // Sterne-Rendering (optional)
+            function renderAverageStars(avg) {
+                if (!avg || isNaN(avg)) return "";
+                let starsHtml = "";
+                for (let i = 1; i <= 5; i++) {
+                    starsHtml += `<span style="color:${i <= Math.round(avg) ? "#FFD700" : "#ccc"
+                        }">★</span>`;
+                }
+                return starsHtml;
+            }
+
+            const card = document.createElement("div");
+            card.className = "col-md-4 mb-4";
+            card.innerHTML = `
+        <div class="card hotel-card">
                   <div class="favorite-icon" style="position: absolute; top: 10px; right: 10px; z-index: 2;">
-                    <i class="bi ${isFavorited ? 'bi-heart-fill' : 'bi-heart'}" data-hotel-id="${hotel._id}" style="font-size: 1.5rem; color: ${isFavorited ? 'red' : 'gray'}; cursor: pointer;"></i>
+                    <i class="bi ${isFavorited ? "bi-heart-fill" : "bi-heart"
+                }" data-hotel-id="${hotel._id
+                }" style="font-size: 1.5rem; color: ${isFavorited ? "red" : "gray"
+                }; cursor: pointer;"></i>
                   </div>
-                  <img src="${hotel.image_url || 'https://source.unsplash.com/featured/?hotel'}" alt="Hotelbild">
+                  <img src="${hotel.image_url ||
+                "https://source.unsplash.com/featured/?hotel"
+                }" alt="Hotelbild">
                   <div class="hotel-info">
                     <div style="display: flex; justify-content: space-between; align-items: center;">
                         <div class="hotel-name">${hotel.name}</div>
-                        <div class="hotel-rating">${hotel.stars ? '★'.repeat(hotel.stars) : 'Keine Kategorie'}</div>
+                        <div class="hotel-rating">${hotel.stars
+                    ? "★".repeat(hotel.stars)
+                    : "Keine Kategorie"
+                }</div>
                     </div>
                     <div class="hotel-location">${hotel.location}</div>
-                    <div class="hotel-price">ab ${hotel.price_per_night.toFixed(2)} € / Nacht</div>
-                    <div class="hotel-reviews">${averageRating} / 5.0 von ${reviewCount} Bewertung(en)</div>
+                    <div class="hotel-price">ab ${hotel.price_per_night.toFixed(
+                    2
+                )} € / Nacht</div>
+                    <div class="hotel-reviews">
+                        <div class="average-stars">${renderAverageStars(
+                    Number(averageRating)
+                )}</div>
+                        <div>${averageRating} / 5.0 von ${reviewCount} Bewertung(en)</div>
+                    </div>
                   </div>
                 </div>
-            `;
-
-            container.appendChild(col);
+      `;
+            container.appendChild(card);
         });
-
-        document.querySelectorAll('.favorite-icon i').forEach(icon => {
-            icon.addEventListener('click', event => {
-                const hotelId = event.target.getAttribute('data-hotel-id');
+        document.querySelectorAll(".favorite-icon").forEach((icon) => {
+            icon.addEventListener("click", event => {
+                const hotelId = event.target.getAttribute("data-hotel-id");
                 toggleFavoriteHotel(hotelId, hotels);
             });
         });
-
     } catch (error) {
-        console.error('Fehler beim Laden der Hotels:', error);
-        container.innerHTML = `<p class="text-danger">Fehler: ${error.message}</p>`;
+        console.error('Fehler:', error);
+        container.innerHTML = `<div class="alert alert-danger">Fehler: ${error.message}</div>`;
+    };
+}
+
+async function searchHotels(query, sortOption = 'default') {
+    const container = document.getElementById('hotel-container');
+    container.innerHTML = '';
+    try {
+        // 1. Hotels laden
+        const hotelsRes = await fetch('http://localhost:3001/hotels/find?query=' + encodeURIComponent(query));
+        if (!hotelsRes.ok) throw new Error('Fehler beim Laden von Hoteldaten');
+        const hotels = await hotelsRes.json();
+        if (hotels.length === 0) {
+            container.innerHTML = '<p class="text-center">Keine Hotels gefunden</p>';
+            return;
+        } else {
+                    // 2. Für jedes Hotel Durchschnittsbewertung holen (API gibt {average, count} zurück)
+        const reviewPromises = hotels.map(hotel =>
+            fetch(`http://localhost:3003/reviews/getaverage/hotel/${hotel._id}`)
+        );
+        const reviewResponses = await Promise.all(reviewPromises);
+        const reviews = await Promise.all(reviewResponses.map(res => res.json()));
+
+        // 3. Map mit Hotel-ID als Schlüssel bauen
+        const reviewMap = {};
+        hotels.forEach((hotel, idx) => {
+            reviewMap[hotel._id] = {
+                average: reviews[idx].average,
+                count: reviews[idx].count
+            };
+        });
+
+        // 4. Favoriten laden
+        const favoriteHotels = JSON.parse(localStorage.getItem('favoriteHotels')) || [];
+
+        // 5. Sortierung (wie gehabt)
+        switch (sortOption) {
+            case 'price-asc':
+                hotels.sort((a, b) => a.price_per_night - b.price_per_night);
+                break;
+            case 'price-desc':
+                hotels.sort((a, b) => b.price_per_night - a.price_per_night);
+                break;
+            case 'star-asc':
+                hotels.sort((a, b) => a.stars - b.stars);
+                break;
+            case 'star-desc':
+                hotels.sort((a, b) => b.stars - a.stars);
+                break;
+            case 'default':
+            default:
+                break;
+        }
+
+        // 6. Hotels rendern
+        hotels.forEach((hotel) => {
+            const averageRating =
+                reviewMap[hotel._id]?.average !== null &&
+                    reviewMap[hotel._id]?.average !== undefined
+                    ? reviewMap[hotel._id].average
+                    : "Keine Bewertungen";
+            const reviewCount = reviewMap[hotel._id]?.count || 0;
+
+            const isFavorited = favoriteHotels.some((favHotel) => favHotel._id === hotel._id);
+
+            // Sterne-Rendering (optional)
+            function renderAverageStars(avg) {
+                if (!avg || isNaN(avg)) return "";
+                let starsHtml = "";
+                for (let i = 1; i <= 5; i++) {
+                    starsHtml += `<span style="color:${i <= Math.round(avg) ? "#FFD700" : "#ccc"
+                        }">★</span>`;
+                }
+                return starsHtml;
+            }
+
+            const card = document.createElement("div");
+            card.className = "col-md-4 mb-4";
+            card.innerHTML = `
+        <div class="card hotel-card">
+                  <div class="favorite-icon" style="position: absolute; top: 10px; right: 10px; z-index: 2;">
+                    <i class="bi ${isFavorited ? "bi-heart-fill" : "bi-heart"
+                }" data-hotel-id="${hotel._id
+                }" style="font-size: 1.5rem; color: ${isFavorited ? "red" : "gray"
+                }; cursor: pointer;"></i>
+                  </div>
+                  <img src="${hotel.image_url ||
+                "https://source.unsplash.com/featured/?hotel"
+                }" alt="Hotelbild">
+                  <div class="hotel-info">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div class="hotel-name">${hotel.name}</div>
+                        <div class="hotel-rating">${hotel.stars
+                    ? "★".repeat(hotel.stars)
+                    : "Keine Kategorie"
+                }</div>
+                    </div>
+                    <div class="hotel-location">${hotel.location}</div>
+                    <div class="hotel-price">ab ${hotel.price_per_night.toFixed(
+                    2
+                )} € / Nacht</div>
+                    <div class="hotel-reviews">
+                        <div class="average-stars">${renderAverageStars(
+                    Number(averageRating)
+                )}</div>
+                        <div>${averageRating} / 5.0 von ${reviewCount} Bewertung(en)</div>
+                    </div>
+                  </div>
+                </div>
+      `;
+            container.appendChild(card);
+        });
+        document.querySelectorAll(".favorite-icon").forEach((icon) => {
+            icon.addEventListener("click", event => {
+                const hotelId = event.target.getAttribute("data-hotel-id");
+                toggleFavoriteHotel(hotelId, hotels);
+            });
+        });
+        }
+        document.getElementById('search-hotel-input').value = '';
+    }
+    catch (error) {
+        container.innerHTML = `<p class="text-danger">Fehler beim Suchen von Hotel-Daten: ${error.message}</p>`;
     }
 }
 
+// Favoriten-Funktion (angepasst)
 function toggleFavoriteHotel(hotelId, hotels) {
     let favoriteHotels = JSON.parse(localStorage.getItem('favoriteHotels')) || [];
     const hotel = hotels.find(h => h._id === hotelId);
 
     if (favoriteHotels.some(favHotel => favHotel._id === hotelId)) {
         favoriteHotels = favoriteHotels.filter(favHotel => favHotel._id !== hotelId);
-    } else {
+    } else if (hotel) {
         favoriteHotels.push(hotel);
     }
-
     localStorage.setItem('favoriteHotels', JSON.stringify(favoriteHotels));
-
     renderFavoriteHotels();
-
     loadHotels();
 }
+
+
 function renderFavoriteHotels() {
     const favHotelsContainer = document.getElementById('fav-hotels');
     if (!favHotelsContainer) return;

@@ -1,20 +1,618 @@
-[
-  {
-    "id": "665100000000000000000001",
-    "user": "Max Mustermann",
-    "rating": 5,
-    "hotel_id": "665000000000000000000001"
-  },
-  {
-    "id": "665100000000000000000002",
-    "user": "Julia Beispiel",
-    "rating": 4,
-    "hotel_id": "664000000000000000000005"
-  },
-  {
-    "id": "665100000000000000000003",
-    "user": "Daniel Reisefreund",
-    "rating": 3,
-    "hotel_id": "665000000000000000000007"
-  }
+{
+  "hotel_reviews": [
+    {
+        "user": "maxmustermann_64",
+        "hotel_id": "68239e184920bce9f8f9fd57",
+        "rating": 4
+    },
+    {
+        "user": "maxmustermann_4",
+        "hotel_id": "68239e184920bce9f8f9fd57",
+        "rating": 2
+    },
+    {
+        "user": "maxmustermann_11",
+        "hotel_id": "68239e184920bce9f8f9fd57",
+        "rating": 4
+    },
+    {
+        "user": "maxmustermann_85",
+        "hotel_id": "68239e184920bce9f8f9fd57",
+        "rating": 1
+    },
+    {
+        "user": "maxmustermann_71",
+        "hotel_id": "68239e184920bce9f8f9fd57",
+        "rating": 3
+    },
+    {
+        "user": "maxmustermann_41",
+        "hotel_id": "68239e184920bce9f8f9fd57",
+        "rating": 1
+    },
+    {
+        "user": "maxmustermann_66",
+        "hotel_id": "68239e184920bce9f8f9fd57",
+        "rating": 5
+    },
+    {
+        "user": "maxmustermann_13",
+        "hotel_id": "68239e184920bce9f8f9fd57",
+        "rating": 4
+    },
+    {
+        "user": "maxmustermann_47",
+        "hotel_id": "68239e184920bce9f8f9fd57",
+        "rating": 3
+    },
+    {
+        "user": "maxmustermann_25",
+        "hotel_id": "68239e184920bce9f8f9fd57",
+        "rating": 4
+    },
+    {
+        "user": "maxmustermann_48",
+        "hotel_id": "68239e184920bce9f8f9fd58",
+        "rating": 2
+    },
+    {
+        "user": "maxmustermann_64",
+        "hotel_id": "68239e184920bce9f8f9fd58",
+        "rating": 3
+    },
+    {
+        "user": "maxmustermann_64",
+        "hotel_id": "68239e184920bce9f8f9fd58",
+        "rating": 5
+    },
+    {
+        "user": "maxmustermann_53",
+        "hotel_id": "68239e184920bce9f8f9fd58",
+        "rating": 2
+    },
+    {
+        "user": "maxmustermann_36",
+        "hotel_id": "68239e184920bce9f8f9fd58",
+        "rating": 4
+    },
+    {
+        "user": "maxmustermann_21",
+        "hotel_id": "68239e184920bce9f8f9fd58",
+        "rating": 5
+    },
+    {
+        "user": "maxmustermann_92",
+        "hotel_id": "68239e184920bce9f8f9fd58",
+        "rating": 2
+    },
+    {
+        "user": "maxmustermann_91",
+        "hotel_id": "68239e184920bce9f8f9fd58",
+        "rating": 3
+    },
+    {
+        "user": "maxmustermann_79",
+        "hotel_id": "68239e184920bce9f8f9fd58",
+        "rating": 1
+    },
+    {
+        "user": "maxmustermann_12",
+        "hotel_id": "68239e184920bce9f8f9fd58",
+        "rating": 4
+    },
+    {
+        "user": "maxmustermann_22",
+        "hotel_id": "68239e184920bce9f8f9fd59",
+        "rating": 5
+    },
+    {
+        "user": "maxmustermann_90",
+        "hotel_id": "68239e184920bce9f8f9fd59",
+        "rating": 2
+    },
+    {
+        "user": "maxmustermann_21",
+        "hotel_id": "68239e184920bce9f8f9fd59",
+        "rating": 2
+    },
+    {
+        "user": "maxmustermann_88",
+        "hotel_id": "68239e184920bce9f8f9fd59",
+        "rating": 4
+    },
+    {
+        "user": "maxmustermann_100",
+        "hotel_id": "68239e184920bce9f8f9fd59",
+        "rating": 5
+    },
+    {
+        "user": "maxmustermann_26",
+        "hotel_id": "68239e184920bce9f8f9fd59",
+        "rating": 4
+    },
+    {
+        "user": "maxmustermann_25",
+        "hotel_id": "68239e184920bce9f8f9fd59",
+        "rating": 4
+    },
+    {
+        "user": "maxmustermann_40",
+        "hotel_id": "68239e184920bce9f8f9fd59",
+        "rating": 4
+    },
+    {
+        "user": "maxmustermann_65",
+        "hotel_id": "68239e184920bce9f8f9fd59",
+        "rating": 5
+    },
+    {
+        "user": "maxmustermann_97",
+        "hotel_id": "68239e184920bce9f8f9fd59",
+        "rating": 5
+    },
+    {
+        "user": "maxmustermann_76",
+        "hotel_id": "68239e184920bce9f8f9fd5a",
+        "rating": 3
+    },
+    {
+        "user": "maxmustermann_90",
+        "hotel_id": "68239e184920bce9f8f9fd5a",
+        "rating": 1
+    },
+    {
+        "user": "maxmustermann_66",
+        "hotel_id": "68239e184920bce9f8f9fd5a",
+        "rating": 5
+    },
+    {
+        "user": "maxmustermann_63",
+        "hotel_id": "68239e184920bce9f8f9fd5a",
+        "rating": 1
+    },
+    {
+        "user": "maxmustermann_8",
+        "hotel_id": "68239e184920bce9f8f9fd5a",
+        "rating": 4
+    },
+    {
+        "user": "maxmustermann_94",
+        "hotel_id": "68239e184920bce9f8f9fd5a",
+        "rating": 2
+    },
+    {
+        "user": "maxmustermann_3",
+        "hotel_id": "68239e184920bce9f8f9fd5a",
+        "rating": 4
+    },
+    {
+        "user": "maxmustermann_4",
+        "hotel_id": "68239e184920bce9f8f9fd5a",
+        "rating": 2
+    },
+    {
+        "user": "maxmustermann_86",
+        "hotel_id": "68239e184920bce9f8f9fd5a",
+        "rating": 2
+    },
+    {
+        "user": "maxmustermann_51",
+        "hotel_id": "68239e184920bce9f8f9fd5a",
+        "rating": 4
+    },
+    {
+        "user": "maxmustermann_19",
+        "hotel_id": "682c5d09ac8c9e310ccab6d8",
+        "rating": 2
+    },
+    {
+        "user": "maxmustermann_18",
+        "hotel_id": "682c5d09ac8c9e310ccab6d8",
+        "rating": 4
+    },
+    {
+        "user": "maxmustermann_69",
+        "hotel_id": "682c5d09ac8c9e310ccab6d8",
+        "rating": 5
+    },
+    {
+        "user": "maxmustermann_45",
+        "hotel_id": "682c5d09ac8c9e310ccab6d8",
+        "rating": 2
+    },
+    {
+        "user": "maxmustermann_7",
+        "hotel_id": "682c5d09ac8c9e310ccab6d8",
+        "rating": 3
+    },
+    {
+        "user": "maxmustermann_100",
+        "hotel_id": "682c5d09ac8c9e310ccab6d8",
+        "rating": 1
+    },
+    {
+        "user": "maxmustermann_34",
+        "hotel_id": "682c5d09ac8c9e310ccab6d8",
+        "rating": 2
+    },
+    {
+        "user": "maxmustermann_26",
+        "hotel_id": "682c5d09ac8c9e310ccab6d8",
+        "rating": 5
+    },
+    {
+        "user": "maxmustermann_9",
+        "hotel_id": "682c5d09ac8c9e310ccab6d8",
+        "rating": 1
+    },
+    {
+        "user": "maxmustermann_13",
+        "hotel_id": "682c5d09ac8c9e310ccab6d8",
+        "rating": 5
+    }
+],
+  "flight_reviews": [
+    { "user": "maxmustermann", "flight_id": "f1239e184920bce9f8f9fd60", "rating": 4 },
+    { "user": "maxmustermann", "flight_id": "f1239e184920bce9f8f9fd60", "rating": 5 },
+    { "user": "maxmustermann", "flight_id": "f1239e184920bce9f8f9fd60", "rating": 2 },
+    { "user": "maxmustermann", "flight_id": "f1239e184920bce9f8f9fd60", "rating": 3 },
+    { "user": "maxmustermann", "flight_id": "f1239e184920bce9f8f9fd60", "rating": 1 },
+    { "user": "maxmustermann", "flight_id": "f1239e184920bce9f8f9fd60", "rating": 2 },
+    { "user": "maxmustermann", "flight_id": "f1239e184920bce9f8f9fd60", "rating": 4 },
+    { "user": "maxmustermann", "flight_id": "f1239e184920bce9f8f9fd60", "rating": 3 },
+    { "user": "maxmustermann", "flight_id": "f1239e184920bce9f8f9fd60", "rating": 5 },
+    { "user": "maxmustermann", "flight_id": "f1239e184920bce9f8f9fd60", "rating": 2 }
+  ],
+  "rentalcar_reviews": [
+    {
+        "user": "maxmustermann_85",
+        "rentalcar_id": "6827c53966666fd263fe066b",
+        "rating": 3
+    },
+    {
+        "user": "maxmustermann_91",
+        "rentalcar_id": "6827c53966666fd263fe066b",
+        "rating": 2
+    },
+    {
+        "user": "maxmustermann_96",
+        "rentalcar_id": "6827c53966666fd263fe066b",
+        "rating": 4
+    },
+    {
+        "user": "maxmustermann_16",
+        "rentalcar_id": "6827c53966666fd263fe066b",
+        "rating": 5
+    },
+    {
+        "user": "maxmustermann_95",
+        "rentalcar_id": "6827c53966666fd263fe066b",
+        "rating": 4
+    },
+    {
+        "user": "maxmustermann_26",
+        "rentalcar_id": "6827c53966666fd263fe066b",
+        "rating": 4
+    },
+    {
+        "user": "maxmustermann_55",
+        "rentalcar_id": "6827c53966666fd263fe066b",
+        "rating": 4
+    },
+    {
+        "user": "maxmustermann_14",
+        "rentalcar_id": "6827c53966666fd263fe066b",
+        "rating": 5
+    },
+    {
+        "user": "maxmustermann_80",
+        "rentalcar_id": "6827c53966666fd263fe066b",
+        "rating": 2
+    },
+    {
+        "user": "maxmustermann_56",
+        "rentalcar_id": "6827c53966666fd263fe066b",
+        "rating": 4
+    },
+    {
+        "user": "maxmustermann_84",
+        "rentalcar_id": "6827c53966666fd263fe066c",
+        "rating": 3
+    },
+    {
+        "user": "maxmustermann_72",
+        "rentalcar_id": "6827c53966666fd263fe066c",
+        "rating": 1
+    },
+    {
+        "user": "maxmustermann_94",
+        "rentalcar_id": "6827c53966666fd263fe066c",
+        "rating": 5
+    },
+    {
+        "user": "maxmustermann_57",
+        "rentalcar_id": "6827c53966666fd263fe066c",
+        "rating": 1
+    },
+    {
+        "user": "maxmustermann_90",
+        "rentalcar_id": "6827c53966666fd263fe066c",
+        "rating": 4
+    },
+    {
+        "user": "maxmustermann_48",
+        "rentalcar_id": "6827c53966666fd263fe066c",
+        "rating": 2
+    },
+    {
+        "user": "maxmustermann_48",
+        "rentalcar_id": "6827c53966666fd263fe066c",
+        "rating": 3
+    },
+    {
+        "user": "maxmustermann_70",
+        "rentalcar_id": "6827c53966666fd263fe066c",
+        "rating": 4
+    },
+    {
+        "user": "maxmustermann_48",
+        "rentalcar_id": "6827c53966666fd263fe066c",
+        "rating": 1
+    },
+    {
+        "user": "maxmustermann_4",
+        "rentalcar_id": "6827c53966666fd263fe066c",
+        "rating": 4
+    },
+    {
+        "user": "maxmustermann_81",
+        "rentalcar_id": "6827c53966666fd263fe066d",
+        "rating": 3
+    },
+    {
+        "user": "maxmustermann_41",
+        "rentalcar_id": "6827c53966666fd263fe066d",
+        "rating": 3
+    },
+    {
+        "user": "maxmustermann_82",
+        "rentalcar_id": "6827c53966666fd263fe066d",
+        "rating": 4
+    },
+    {
+        "user": "maxmustermann_38",
+        "rentalcar_id": "6827c53966666fd263fe066d",
+        "rating": 1
+    },
+    {
+        "user": "maxmustermann_42",
+        "rentalcar_id": "6827c53966666fd263fe066d",
+        "rating": 3
+    },
+    {
+        "user": "maxmustermann_88",
+        "rentalcar_id": "6827c53966666fd263fe066d",
+        "rating": 4
+    },
+    {
+        "user": "maxmustermann_22",
+        "rentalcar_id": "6827c53966666fd263fe066d",
+        "rating": 3
+    },
+    {
+        "user": "maxmustermann_42",
+        "rentalcar_id": "6827c53966666fd263fe066d",
+        "rating": 5
+    },
+    {
+        "user": "maxmustermann_21",
+        "rentalcar_id": "6827c53966666fd263fe066d",
+        "rating": 1
+    },
+    {
+        "user": "maxmustermann_85",
+        "rentalcar_id": "6827c53966666fd263fe066d",
+        "rating": 5
+    },
+    {
+        "user": "maxmustermann_94",
+        "rentalcar_id": "6827c53966666fd263fe066e",
+        "rating": 4
+    },
+    {
+        "user": "maxmustermann_76",
+        "rentalcar_id": "6827c53966666fd263fe066e",
+        "rating": 1
+    },
+    {
+        "user": "maxmustermann_80",
+        "rentalcar_id": "6827c53966666fd263fe066e",
+        "rating": 5
+    },
+    {
+        "user": "maxmustermann_96",
+        "rentalcar_id": "6827c53966666fd263fe066e",
+        "rating": 3
+    },
+    {
+        "user": "maxmustermann_44",
+        "rentalcar_id": "6827c53966666fd263fe066e",
+        "rating": 5
+    },
+    {
+        "user": "maxmustermann_82",
+        "rentalcar_id": "6827c53966666fd263fe066e",
+        "rating": 1
+    },
+    {
+        "user": "maxmustermann_16",
+        "rentalcar_id": "6827c53966666fd263fe066e",
+        "rating": 4
+    },
+    {
+        "user": "maxmustermann_18",
+        "rentalcar_id": "6827c53966666fd263fe066e",
+        "rating": 5
+    },
+    {
+        "user": "maxmustermann_96",
+        "rentalcar_id": "6827c53966666fd263fe066e",
+        "rating": 1
+    },
+    {
+        "user": "maxmustermann_56",
+        "rentalcar_id": "6827c53966666fd263fe066e",
+        "rating": 5
+    },
+    {
+        "user": "maxmustermann_86",
+        "rentalcar_id": "6827c53966666fd263fe066f",
+        "rating": 3
+    },
+    {
+        "user": "maxmustermann_43",
+        "rentalcar_id": "6827c53966666fd263fe066f",
+        "rating": 3
+    },
+    {
+        "user": "maxmustermann_11",
+        "rentalcar_id": "6827c53966666fd263fe066f",
+        "rating": 3
+    },
+    {
+        "user": "maxmustermann_97",
+        "rentalcar_id": "6827c53966666fd263fe066f",
+        "rating": 4
+    },
+    {
+        "user": "maxmustermann_4",
+        "rentalcar_id": "6827c53966666fd263fe066f",
+        "rating": 5
+    },
+    {
+        "user": "maxmustermann_33",
+        "rentalcar_id": "6827c53966666fd263fe066f",
+        "rating": 1
+    },
+    {
+        "user": "maxmustermann_5",
+        "rentalcar_id": "6827c53966666fd263fe066f",
+        "rating": 5
+    },
+    {
+        "user": "maxmustermann_73",
+        "rentalcar_id": "6827c53966666fd263fe066f",
+        "rating": 5
+    },
+    {
+        "user": "maxmustermann_23",
+        "rentalcar_id": "6827c53966666fd263fe066f",
+        "rating": 4
+    },
+    {
+        "user": "maxmustermann_91",
+        "rentalcar_id": "6827c53966666fd263fe066f",
+        "rating": 3
+    },
+    {
+        "user": "maxmustermann_75",
+        "rentalcar_id": "6827c53966666fd263fe0670",
+        "rating": 1
+    },
+    {
+        "user": "maxmustermann_77",
+        "rentalcar_id": "6827c53966666fd263fe0670",
+        "rating": 1
+    },
+    {
+        "user": "maxmustermann_25",
+        "rentalcar_id": "6827c53966666fd263fe0670",
+        "rating": 1
+    },
+    {
+        "user": "maxmustermann_11",
+        "rentalcar_id": "6827c53966666fd263fe0670",
+        "rating": 1
+    },
+    {
+        "user": "maxmustermann_91",
+        "rentalcar_id": "6827c53966666fd263fe0670",
+        "rating": 3
+    },
+    {
+        "user": "maxmustermann_9",
+        "rentalcar_id": "6827c53966666fd263fe0670",
+        "rating": 4
+    },
+    {
+        "user": "maxmustermann_91",
+        "rentalcar_id": "6827c53966666fd263fe0670",
+        "rating": 4
+    },
+    {
+        "user": "maxmustermann_13",
+        "rentalcar_id": "6827c53966666fd263fe0670",
+        "rating": 1
+    },
+    {
+        "user": "maxmustermann_38",
+        "rentalcar_id": "6827c53966666fd263fe0670",
+        "rating": 2
+    },
+    {
+        "user": "maxmustermann_71",
+        "rentalcar_id": "6827c53966666fd263fe0670",
+        "rating": 5
+    },
+    {
+        "user": "maxmustermann_41",
+        "rentalcar_id": "682c5d62579b99ae4a64f336",
+        "rating": 4
+    },
+    {
+        "user": "maxmustermann_17",
+        "rentalcar_id": "682c5d62579b99ae4a64f336",
+        "rating": 2
+    },
+    {
+        "user": "maxmustermann_70",
+        "rentalcar_id": "682c5d62579b99ae4a64f336",
+        "rating": 2
+    },
+    {
+        "user": "maxmustermann_79",
+        "rentalcar_id": "682c5d62579b99ae4a64f336",
+        "rating": 2
+    },
+    {
+        "user": "maxmustermann_73",
+        "rentalcar_id": "682c5d62579b99ae4a64f336",
+        "rating": 1
+    },
+    {
+        "user": "maxmustermann_96",
+        "rentalcar_id": "682c5d62579b99ae4a64f336",
+        "rating": 3
+    },
+    {
+        "user": "maxmustermann_10",
+        "rentalcar_id": "682c5d62579b99ae4a64f336",
+        "rating": 5
+    },
+    {
+        "user": "maxmustermann_30",
+        "rentalcar_id": "682c5d62579b99ae4a64f336",
+        "rating": 3
+    },
+    {
+        "user": "maxmustermann_2",
+        "rentalcar_id": "682c5d62579b99ae4a64f336",
+        "rating": 2
+    },
+    {
+        "user": "maxmustermann_21",
+        "rentalcar_id": "682c5d62579b99ae4a64f336",
+        "rating": 4
+    }
 ]
+}

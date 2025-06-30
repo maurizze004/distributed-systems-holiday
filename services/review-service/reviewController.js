@@ -1,4 +1,9 @@
-import Review from './review.js';
+import {
+    ReviewFlight,
+    ReviewHotel,
+    ReviewRentalCar
+} from './review.js';
+
 
 // GET all reviews
 export const getAllRevs = async (req, res) => {
@@ -63,4 +68,53 @@ export const deleteRev = async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: 'Fehler beim Löschen des Reviews', error });
     }
+};
+
+const modelMap = {
+    hotel: ReviewHotel,
+    flight: ReviewFlight,
+    rentalcar: ReviewRentalCar
+};
+
+// export const submitReview = async (req, res) => {
+//   const { username, rating, type, hotel_id, flight_id, rentalcar_id } = req.body;
+//   if (rating < 0 || rating > 5)
+//     return res.status(400).json({ error: "Ungültige Bewertung" });
+
+//   const Model = modelMap[type];
+//   if (!Model)
+//     return res.status(400).json({ error: "Ungültiger Review-Typ" });
+
+//   // Dynamisch das passende ID-Feld wählen
+//   let filter = { username };
+//   if (type === "hotel") filter.hotel_id = hotel_id;
+//   if (type === "flight") filter.flight_id = flight_id;
+//   if (type === "rentalcar") filter.rentalcar_id = rentalcar_id;
+
+//   const review = await Model.findOneAndUpdate(
+//     filter,
+//     { rating },
+//     { new: true, upsert: true }
+//   );
+//   res.json(review);
+// };
+
+export const getAverageRating = async (req, res) => {
+  const { type, id } = req.params;
+  const Model = modelMap[type];
+  if (!Model)
+    return res.status(400).json({ error: "Ungültiger Review-Typ" });
+
+  // Dynamisch das passende ID-Feld wählen
+  let filter = {};
+  if (type === "hotel") filter.hotel_id = id;
+  if (type === "flight") filter.flight_id = id;
+  if (type === "rentalcar") filter.rentalcar_id = id;
+
+  const reviews = await Model.find(filter);
+  if (!reviews.length) return res.json({ average: null, count: 0 });
+
+  const sum = reviews.reduce((acc, r) => acc + r.rating, 0);
+  const average = (sum / reviews.length).toFixed(1);
+  res.json({ average, count: reviews.length });
 };

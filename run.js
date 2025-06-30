@@ -1,6 +1,13 @@
 import {spawn} from 'child_process';
 import open from 'open';
 import path from 'path';
+import fs from 'fs';
+
+const envPath = path.resolve(process.cwd(), '.env');
+if (!fs.existsSync(envPath)) {
+  fs.writeFileSync(envPath, 'JWT_SECRET=DistributedSystemsHoliday\n');
+  console.log('.env Datei wurde erstellt.');
+}
 
 // Paths to server files
 const services = [
