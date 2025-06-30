@@ -49,7 +49,7 @@ async function startServer() {
   await seedLogin();
   app.use("/users", userRoutes);
   app.listen(config.PORT, () => {
-    console.log(`Server läuft auf Port ${config.PORT}`);
+    console.log(`Login läuft auf Port ${config.PORT}`);
   });
 }
 startServer();

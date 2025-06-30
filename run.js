@@ -41,10 +41,11 @@ function startService({path: servicePath, name: serviceName}) {
 console.log('Start all services...');
 services.forEach(startService);
 
-// Open the browser to load index.html
+// Open the browser and load index.html
 (async () => {
     try {
         await open('./user-frontend/index.html');
+        document.title = 'TravelMate - Home';
     } catch (error) {
         console.error('Fehler beim Öffnen des Browsers:', error);
     }

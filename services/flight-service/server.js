@@ -46,7 +46,7 @@ async function startServer() {
     await seedFlights();
     app.use('/flights', flightRoutes);
     app.listen(config.PORT, () => {
-      console.log(`Server läuft auf Port ${config.PORT}`);
+      console.log(`Flight Server läuft auf Port ${config.PORT}`);
     });
   }
   

@@ -45,7 +45,7 @@ async function startServer() {
     await seedHotels();
     app.use('/hotels', hotelRoutes);
     app.listen(config.PORT, () => {
-      console.log(`Server läuft auf Port ${config.PORT}`);
+      console.log(`Hotels läuft auf Port ${config.PORT}`);
     });
   } 
   startServer();

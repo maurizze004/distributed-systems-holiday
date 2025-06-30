@@ -47,7 +47,7 @@ async function startServer() {
     await seedCars();
     app.use('/cars', carRoutes);
     app.listen(config.PORT, () => {
-      console.log(`Server läuft auf Port ${config.PORT}`);
+      console.log(`RentalCars läuft auf Port ${config.PORT}`);
     });
   }   
   startServer();
