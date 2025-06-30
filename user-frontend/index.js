@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', function() {
       localStorage.removeItem('username');
       localStorage.removeItem('role');
       alert('Sie wurden abgemeldet.');
-      window.location.href = './index.html'; // Weiterleitung zur Login-Seite
+      window.location.href = 'index.html'; // Weiterleitung zur Login-Seite
     });
   }
 });

@@ -53,20 +53,21 @@ The project leverages the following tools and technologies:
    git clone https://github.com/maurizze004/distributed-systems-holiday.git
    ```
 
-2. Run the following command for every service
+2. Run
 
-   ```
+   ```bash
    npm install
    ```
-3. In the project root folder do
-    ```
-   npm install open path
-   ```
-4. When installation is finished, stay in root and hit 
-    ```
+
+3. When installation is finished hit 
+
+    ```bash
    node run.js
    ```
 ---
+
+## Admin Login
+> Use *admin* as user and password to login as an admin
 
 ## Contributors 
 

@@ -30,7 +30,7 @@ const swaggerDefinition = {
 };
 const options = {
   swaggerDefinition,
-  apis: ['./services/hotel-service/hotels.js'], // Hier kannst du weitere Dateien ergänzen
+  apis: ['./services/hotel-service/hotels.js'],
 };
 const swaggerSpec = swaggerJSDoc(options);
 

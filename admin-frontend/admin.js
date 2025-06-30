@@ -668,49 +668,22 @@ async function loadReviews() {
     tbody.innerHTML = '';
 
     try {
-        const [reviewsRes, hotelsRes] = await Promise.all([
-            fetch('http://localhost:3003/reviews/get'),
-            fetch('http://localhost:3001/hotels/get'),
-        ]);
-
+        // Abrufen aller Reviews
+        const reviewsRes = await fetch('http://localhost:3003/reviews/get'); // Endpunkt für alle Reviews
         const reviews = await reviewsRes.json();
-        const hotels = await hotelsRes.json();
 
-        const hotelMap = hotels.reduce((map, hotel) => {
-            map[hotel._id] = hotel.name;
-            return map;
-        }, {});
-
-        // Group reviews by hotel_id and calculate average rating
-        const hotelRatings = reviews.reduce((acc, rev) => {
-            if (!acc[rev.hotel_id]) {
-                acc[rev.hotel_id] = {
-                    count: 0,
-                    total: 0,
-                    reviews: []
-                };
-            }
-            acc[rev.hotel_id].count++;
-            acc[rev.hotel_id].total += rev.rating;
-            acc[rev.hotel_id].reviews.push(rev);
-            return acc;
-        }, {});
-
-        Object.keys(hotelRatings).forEach(hotelId => {
-            const hotelData = hotelRatings[hotelId];
-            const averageRating = (hotelData.total / hotelData.count).toFixed(1);
-            const hotelName = hotelMap[hotelId] || 'Unbekanntes Hotel';
+        // Reviews dynamisch in die Tabelle einfügen
+        reviews.forEach((review) => {
             const row = document.createElement('tr');
             row.innerHTML = `
-                <td>${hotelName}</td>
-                <td>${averageRating}</td> 
-                <td>
-                    ${hotelData.reviews.map(rev => `
-                        <button class="btn btn-sm btn-outline-secondary" onclick="editReview('${rev._id}')"><i class="bi bi-pencil"></i></button>
-                        <button class="btn btn-sm btn-outline-danger" onclick="deleteReview('${rev._id}')"><i class="bi bi-trash"></i></button>
-                    `).join(` `)}
-                </td>
-            `;
+            <td>${review.type}</td>
+            <td>${review._id}</td>
+            <td>
+                <button class="btn btn-sm btn-outline-secondary" onclick="deleteReview('${review._id}')">
+                    <i class="bi bi-trash"></i>
+                </button>
+            </td>
+        `;
             tbody.appendChild(row);
         });
     } catch (error) {

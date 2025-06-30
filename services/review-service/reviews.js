@@ -36,6 +36,7 @@ const router = express.Router();
  *                 $ref: '#/components/schemas/Review'
  */
 router.get("/get", getAllRevs);
+
 router.get('/get/:id', getRevById);
 
 // ADMIN Routen

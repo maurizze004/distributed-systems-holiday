@@ -1,19 +1,28 @@
-import {
-    ReviewFlight,
-    ReviewHotel,
-    ReviewRentalCar
-} from './review.js';
+import {ReviewFlight, ReviewHotel, ReviewRentalCar} from "./review.js";
 
-
-// GET all reviews
 export const getAllRevs = async (req, res) => {
     try {
-        const reviewData = await Review.find();
-        res.json(reviewData);
+        // Parallel Daten von allen Review-Collections abrufen
+        const [flightReviews, hotelReviews, carReviews] = await Promise.all([
+            ReviewFlight.find(),
+            ReviewHotel.find(),
+            ReviewRentalCar.find()
+        ]);
+
+        // Typen zu jeder Tabelle hinzufügen und alle Reviews kombinieren
+        const allReviews = [
+            ...flightReviews.map((review) => ({ ...review.toObject(), type: 'flight' })),
+            ...hotelReviews.map((review) => ({ ...review.toObject(), type: 'hotel' })),
+            ...carReviews.map((review) => ({ ...review.toObject(), type: 'rentalcar' }))
+        ];
+
+        // Gesamtreviews als JSON senden
+        res.json(allReviews);
     } catch (error) {
-        res.status(500).json({ message: 'Error retrieving revs', error });
+        res.status(500).json({ message: 'Fehler beim Abrufen der Reviews', error });
     }
 };
+
 
 // GET rev by ID
 export const getRevById = async (req, res) => {

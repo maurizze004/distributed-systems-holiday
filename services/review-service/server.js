@@ -47,7 +47,7 @@ async function startServer() {
     await seedReviews();
     app.use('/reviews', revRoutes);
     app.listen(config.PORT, () => {
-        console.log(`Server läuft auf Port ${config.PORT}`);
+        console.log(`Review läuft auf Port ${config.PORT}`);
     });
 }
 startServer();

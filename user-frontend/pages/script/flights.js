@@ -107,7 +107,7 @@ async function loadFlights(sortOption = 'default') {
 // Toggle favorite flight
 function toggleFavoriteFlight(flightId, flights) {
     let favoriteFlights = JSON.parse(localStorage.getItem('favoriteFlights')) || [];
-    const flight = flights.find(h => h._id === hotelId);
+    const flight = flights.find(h => h._id === flightId);
 
     if (favoriteFlights.some(favFlight => favFlight._id === flightId)) {
         favoriteFlights = favoriteFlights.filter(favFlight => favFlight._id !== flightId);
@@ -117,8 +117,35 @@ function toggleFavoriteFlight(flightId, flights) {
 
     localStorage.setItem('favoriteFlights', JSON.stringify(favoriteFlights));
 
-    renderFavoriteCars();
+    renderFavoriteFlight();
     loadFlights();
+}
+
+function renderFavoriteFlight() {
+    const favFlightsContainer = document.getElementById('fav-flights');
+    const favoriteFlights = JSON.parse(localStorage.getItem('favoriteFlights')) || [];
+    favFlightsContainer.innerHTML = '';
+    if (!favoriteFlights.length) {
+        favFlightsContainer.innerHTML = '<p class="text-muted">Keine favorisierten Flüge gefunden.</p>';
+    } else {
+        favoriteFlights.forEach(flight => {
+            const listItem = document.createElement('li');
+            const departureTime = new Date(flight.departure_time).toLocaleString('de-DE');
+            listItem.className = 'list-group-item';
+            listItem.style.marginBottom = '20px';
+            listItem.style.borderRadius = '10px';
+            listItem.innerHTML = `
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <span>${flight.departure_airport} → ${flight.arrival_airport} <br>${departureTime} <br> ${flight.price}&nbsp;&euro;</span>
+                    <i class="bi bi-trash text-danger" style="cursor: pointer;" data-flight-id="${flight._id}"></i>
+                </div>
+            `;
+            listItem.querySelector('.bi-trash').addEventListener('click', () => {
+                removeFavoriteFlight(flight._id);
+            });
+            favFlightsContainer.appendChild(listItem);
+        });
+    }
 }
 
 document.getElementById('sort-option').addEventListener('change', (event) => {
@@ -195,5 +222,5 @@ document.getElementById('search-button').addEventListener('click', async () => {
 
 document.addEventListener('DOMContentLoaded', () => {
     loadFlights();
-    renderFavoriteFlights();
+    renderFavoriteFlight();
 });
